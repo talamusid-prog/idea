@@ -27,6 +27,7 @@ import { getAllPortfolios, createPortfolioWithSlug, updatePortfolioBySlug, delet
 import { savePortfolioImage, getPortfolioImage } from "@/lib/portfolioImageService";
 import { Portfolio, CreatePortfolio } from "@/lib/supabase";
 import { supabase } from "@/lib/supabase";
+import { showSuccess, showError, showWarning, showConfirm } from "@/lib/sweetAlert";
 
 const AdminPortfolio = () => {
   const navigate = useNavigate();
@@ -82,13 +83,13 @@ const AdminPortfolio = () => {
     if (file) {
       // Validasi file type
       if (!file.type.startsWith('image/')) {
-        alert('Pilih file gambar yang valid!');
+        showWarning('Pilih file gambar yang valid!');
         return;
       }
 
       // Validasi file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Ukuran file maksimal 5MB!');
+        showWarning('Ukuran file maksimal 5MB!');
         return;
       }
 
@@ -127,10 +128,10 @@ const AdminPortfolio = () => {
           };
           reader.readAsDataURL(file);
         } else {
-          alert('Ukuran file maksimal 5MB!');
+          showWarning('Ukuran file maksimal 5MB!');
         }
       } else {
-        alert('Pilih file gambar yang valid!');
+        showWarning('Pilih file gambar yang valid!');
       }
     }
   };
@@ -153,7 +154,7 @@ const AdminPortfolio = () => {
     e.preventDefault();
     
     if (!formData.title.trim() || !formData.description.trim()) {
-      alert("Judul dan deskripsi harus diisi!");
+      showWarning("Judul dan deskripsi harus diisi!");
       return;
     }
 
@@ -169,7 +170,7 @@ const AdminPortfolio = () => {
           imageUrl = imageKey; // Simpan key sebagai URL
         } else {
           console.error('❌ Failed to save image to local storage');
-          alert("Gagal menyimpan gambar. Silakan coba lagi.");
+          showError("Gagal menyimpan gambar. Silakan coba lagi.");
           setIsUploading(false);
           return;
         }
@@ -194,13 +195,13 @@ const AdminPortfolio = () => {
         // Update existing portfolio
         success = await updatePortfolioBySlug(editingPortfolio.slug, portfolioData);
         if (success) {
-          alert("Portofolio berhasil diperbarui!");
+          showSuccess("Portofolio berhasil diperbarui!");
         }
       } else {
         // Create new portfolio
         success = await createPortfolioWithSlug(portfolioData);
         if (success) {
-          alert("Portofolio berhasil dibuat!");
+          showSuccess("Portofolio berhasil dibuat!");
         }
       }
 
@@ -210,11 +211,11 @@ const AdminPortfolio = () => {
         loadPortfolios();
       } else {
         console.error('❌ Failed to save portfolio');
-        alert("Gagal menyimpan portofolio. Silakan coba lagi.");
+        showError("Gagal menyimpan portofolio. Silakan coba lagi.");
       }
     } catch (error) {
       console.error("Error saving portfolio:", error);
-      alert("Terjadi kesalahan saat menyimpan portofolio.");
+      showError("Terjadi kesalahan saat menyimpan portofolio.");
     } finally {
       setIsUploading(false);
     }
@@ -263,14 +264,14 @@ const AdminPortfolio = () => {
             localStorage.removeItem(portfolio.featured_image);
           }
           
-          alert("Portofolio berhasil dihapus!");
+          showSuccess("Portofolio berhasil dihapus!");
           loadPortfolios();
         } else {
-          alert("Gagal menghapus portofolio.");
+          showError("Gagal menghapus portofolio.");
         }
       } catch (error) {
         console.error("Error deleting portfolio:", error);
-        alert("Terjadi kesalahan saat menghapus portofolio.");
+        showError("Terjadi kesalahan saat menghapus portofolio.");
       }
     }
   };
@@ -341,10 +342,10 @@ const AdminPortfolio = () => {
       link.click();
       
       URL.revokeObjectURL(url);
-      alert('Data portfolio berhasil di-export!');
+      showSuccess('Data portfolio berhasil di-export!');
     } catch (error) {
       console.error('Error exporting data:', error);
-      alert('Gagal export data portfolio.');
+      showError('Gagal export data portfolio.');
     }
   };
 

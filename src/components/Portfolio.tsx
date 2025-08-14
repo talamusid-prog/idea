@@ -5,6 +5,7 @@ import { useSimpleCache, CACHE_KEYS } from "@/hooks/useCache";
 import { getPublishedPortfolios } from "@/lib/portfolioService";
 import { getPortfolioImage, listenForImageUpdates, getPortfolioImageWithFallback } from "@/lib/portfolioImageService";
 import { Portfolio as PortfolioType } from "@/lib/supabase";
+import { showInfo } from "@/lib/sweetAlert";
 
 const Portfolio = () => {
   // Cache untuk kategori yang dipilih
@@ -78,7 +79,7 @@ const Portfolio = () => {
     if (portfolio.project_url) {
       window.open(portfolio.project_url, '_blank', 'noopener,noreferrer');
     } else {
-      alert('Demo belum tersedia untuk portfolio ini.');
+      showInfo('Demo belum tersedia untuk portfolio ini.');
     }
   };
 

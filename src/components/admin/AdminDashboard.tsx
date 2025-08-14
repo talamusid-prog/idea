@@ -20,8 +20,9 @@ import {
   Settings,
   Briefcase
 } from "lucide-react";
-import { BlogPost, getAllPosts, deletePost } from "@/lib/blogService";
-import BlogEditor from "@/components/BlogEditor";
+import { getAllPosts, deletePost } from "@/lib/blogService";
+import { BlogPost } from "@/lib/supabase";
+import { showSuccess, showError, showConfirm } from "@/lib/sweetAlert";
 
 interface AdminDashboardProps {
   onLogout?: () => void;
@@ -33,8 +34,6 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showEditor, setShowEditor] = useState(false);
-  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
 
   // Load posts on component mount
@@ -70,18 +69,23 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   };
 
   const handleDeletePost = async (postId: string) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
+    const confirmed = await showConfirm(
+      "Hapus Artikel",
+      "Apakah Anda yakin ingin menghapus artikel ini? Tindakan ini tidak dapat dibatalkan."
+    );
+    
+    if (confirmed) {
       try {
         const success = await deletePost(postId);
         if (success) {
           await loadPosts();
-          alert("Artikel berhasil dihapus!");
+          showSuccess("Artikel berhasil dihapus!");
         } else {
-          alert("Gagal menghapus artikel");
+          showError("Gagal menghapus artikel");
         }
       } catch (error) {
         console.error("Error deleting post:", error);
-        alert("Terjadi kesalahan saat menghapus artikel");
+        showError("Terjadi kesalahan saat menghapus artikel");
       }
     }
   };
@@ -90,16 +94,9 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
     navigate(`/edit-article/${post.slug}`);
   };
 
-  const handleCreatePost = () => {
-    setEditingPost(null);
-    setShowEditor(true);
-  };
 
-  const handleSavePost = async (post: BlogPost) => {
-    await loadPosts();
-    setShowEditor(false);
-    setEditingPost(null);
-  };
+
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('id-ID', {
@@ -124,31 +121,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
     totalViews: posts.reduce((sum, p) => sum + (p.views || 0), 0)
   };
 
-  if (showEditor) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto p-6">
-          <div className="flex items-center justify-between mb-6">
-            <Button 
-              variant="outline" 
-              onClick={() => setShowEditor(false)}
-              className="flex items-center gap-2"
-            >
-              ← Kembali ke Dashboard
-            </Button>
-            <h1 className="text-2xl font-bold">
-              {editingPost ? "Edit Artikel" : "Buat Artikel Baru"}
-            </h1>
-          </div>
-          <BlogEditor 
-            post={editingPost || undefined}
-            onSave={handleSavePost}
-            onCancel={() => setShowEditor(false)}
-          />
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -240,14 +213,6 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
                 <div className="flex gap-2">
-                  <Button 
-                    onClick={handleCreatePost}
-                    variant="outline"
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="h-4 w-4" />
-                    Editor Lama
-                  </Button>
                   <Button 
                     onClick={() => navigate('/create-article')}
                     className="flex items-center gap-2"
@@ -368,14 +333,6 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-800">Kelola Artikel</h2>
                 <div className="flex gap-2">
-                  <Button 
-                    onClick={handleCreatePost}
-                    variant="outline"
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="h-4 w-4" />
-                    Editor Lama
-                  </Button>
                   <Button 
                     onClick={() => navigate('/create-article')}
                     className="flex items-center gap-2"

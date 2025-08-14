@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 
 const ConsultationCTA = () => {
   const handleWhatsAppClick = () => {
-    const phoneNumber = "085242766676";
+    const phoneNumber = "6285242766676";
     const message = "Halo! Saya tertarik dengan jasa pembuatan website Anda. Bisa konsultasi lebih lanjut?";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');

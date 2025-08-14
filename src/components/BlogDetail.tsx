@@ -23,6 +23,7 @@ import { getPostBySlug, getPublishedPosts, getPopularPosts } from "@/lib/blogSer
 import { BlogPost } from "@/lib/supabase";
 import Header from "./Header";
 import Footer from "./Footer";
+import { showSuccess } from "@/lib/sweetAlert";
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -165,7 +166,7 @@ const BlogDetail = () => {
     } else {
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert("Link artikel berhasil disalin!");
+      showSuccess("Link artikel berhasil disalin!");
     }
   };
 

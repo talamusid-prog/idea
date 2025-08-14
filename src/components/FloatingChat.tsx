@@ -44,7 +44,7 @@ const FloatingChat = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="bg-white rounded-lg shadow-2xl border border-gray-200 w-80 h-96 flex flex-col animate-in slide-in-from-bottom-4 duration-300 ease-out">
+        <div className="bg-white rounded-lg shadow-2xl border border-gray-200 w-72 sm:w-80 h-96 flex flex-col animate-in slide-in-from-bottom-4 duration-300 ease-out">
           {/* Header */}
           <div className="bg-green-500 text-white p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -84,11 +84,11 @@ const FloatingChat = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Ketik pesan..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm transition-all duration-200 focus:scale-[1.02]"
+                className="flex-1 min-w-0 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm transition-all duration-200 focus:scale-[1.02]"
               />
               <button
                 type="submit"
-                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition-all duration-300 aspect-square w-8 h-8 flex items-center justify-center hover:scale-110 active:scale-95 hover:rotate-12 active:rotate-0 shadow-lg hover:shadow-xl"
+                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition-all duration-300 aspect-square w-8 h-8 flex items-center justify-center hover:scale-110 active:scale-95 hover:rotate-12 active:rotate-0 shadow-lg hover:shadow-xl flex-shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>

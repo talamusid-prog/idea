@@ -5,7 +5,7 @@
 ### **1. Authentication System**
 - ✅ **Login/Logout**: Sistem autentikasi sederhana
 - ✅ **Session Management**: Menggunakan localStorage
-- ✅ **Demo Credentials**: Username: `admin`, Password: `admin123`
+
 - ✅ **Auto-login**: Tetap login setelah refresh halaman
 
 ### **2. Dashboard Overview**
@@ -45,11 +45,7 @@ http://localhost:5173/admin
 - Klik tombol "Admin Panel" di header website
 - Otomatis redirect ke halaman admin
 
-### **3. Login Credentials**
-```
-Username: admin
-Password: admin123
-```
+
 
 ## **Struktur File Admin**
 
@@ -91,9 +87,7 @@ Password: admin123
 
 ### **1. Login**
 1. Buka `/admin`
-2. Masukkan credentials:
-   - Username: `admin`
-   - Password: `admin123`
+2. Masukkan credentials yang valid
 3. Klik "Masuk"
 
 ### **2. Dashboard Overview**
@@ -123,7 +117,7 @@ Password: admin123
 ### **Current Implementation (Demo)**
 - ✅ **Simple Authentication**: Username/password hardcoded
 - ✅ **Local Storage**: Session disimpan di localStorage
-- ✅ **Demo Credentials**: admin/admin123
+
 
 ### **Production Recommendations**
 - 🔒 **Supabase Auth**: Implementasi Supabase Authentication

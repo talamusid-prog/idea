@@ -7,7 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { X, Plus, Save, Eye, EyeOff } from "lucide-react";
-import { createPost, updatePost, CreateBlogPost, BlogPost } from "@/lib/blogService";
+import { createPost, updatePost } from "@/lib/blogService";
+import { CreateBlogPost, BlogPost } from "@/lib/supabase";
+import { showSuccess, showError, showWarning } from "@/lib/sweetAlert";
 
 interface BlogEditorProps {
   post?: BlogPost; // Jika ada, mode edit
@@ -67,7 +69,7 @@ const BlogEditor = ({ post, onSave, onCancel }: BlogEditorProps) => {
 
   const handleSubmit = async () => {
     if (!formData.title || !formData.content || !formData.excerpt || !formData.slug || !formData.author) {
-      alert("Mohon lengkapi semua field yang diperlukan");
+      showWarning("Mohon lengkapi semua field yang diperlukan");
       return;
     }
 
@@ -84,13 +86,13 @@ const BlogEditor = ({ post, onSave, onCancel }: BlogEditorProps) => {
 
       if (savedPost) {
         onSave?.(savedPost);
-        alert(post ? "Artikel berhasil diperbarui!" : "Artikel berhasil dibuat!");
+        showSuccess(post ? "Artikel berhasil diperbarui!" : "Artikel berhasil dibuat!");
       } else {
-        alert("Terjadi kesalahan saat menyimpan artikel");
+        showError("Terjadi kesalahan saat menyimpan artikel");
       }
     } catch (error) {
       console.error("Error saving post:", error);
-      alert("Terjadi kesalahan saat menyimpan artikel");
+      showError("Terjadi kesalahan saat menyimpan artikel");
     } finally {
       setLoading(false);
     }

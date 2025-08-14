@@ -26,6 +26,7 @@ import { createPostWithSlug } from "@/lib/blogService";
 import { runAllTests } from "@/lib/testDatabase";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { showSuccess, showError, showWarning } from "@/lib/sweetAlert";
 
 const CreateArticle = () => {
   const navigate = useNavigate();
@@ -179,12 +180,12 @@ const CreateArticle = () => {
     
     // Validasi form
     if (!formData.title.trim()) {
-      alert("Judul artikel harus diisi!");
+      showWarning("Judul artikel harus diisi!");
       return;
     }
     
     if (!formData.content.trim()) {
-      alert("Konten artikel harus diisi!");
+      showWarning("Konten artikel harus diisi!");
       return;
     }
     
@@ -217,14 +218,14 @@ const CreateArticle = () => {
       console.log("Hasil penyimpanan:", success);
       
       if (success) {
-        alert("Artikel berhasil disimpan!");
+        showSuccess("Artikel berhasil disimpan!");
         navigate("/admin");
       } else {
-        alert("Gagal menyimpan artikel. Silakan coba lagi.");
+        showError("Gagal menyimpan artikel. Silakan coba lagi.");
       }
     } catch (error) {
       console.error("Error saving article:", error);
-      alert(`Terjadi kesalahan saat menyimpan artikel: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      showError(`Terjadi kesalahan saat menyimpan artikel: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsUploading(false);
     }
