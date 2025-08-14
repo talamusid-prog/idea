@@ -149,6 +149,8 @@ const Portfolio = () => {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Portofolio Proyek Idea Digital Creative" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:secure_url" content="https://ideadigiralcreative.com/public/logo.png" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -156,6 +158,7 @@ const Portfolio = () => {
         <meta name="twitter:description" content="Kumpulan proyek-proyek terbaik yang telah kami kerjakan untuk berbagai klien. Lihat portofolio website, e-commerce, dan aplikasi web kami." />
         <meta name="twitter:image" content="https://ideadigiralcreative.com/public/logo.png" />
         <meta name="twitter:site" content="@ideadigitalcreative" />
+        <meta name="twitter:creator" content="@ideadigitalcreative" />
         
         {/* Additional Meta Tags */}
         <meta name="robots" content="index, follow" />

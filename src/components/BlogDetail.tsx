@@ -350,12 +350,11 @@ const BlogDetail = () => {
         <meta property="og:locale" content="id_ID" />
         
         {/* Open Graph Image */}
-        {post.featured_image && (
-          <meta property="og:image" content={post.featured_image} />
-        )}
+        <meta property="og:image" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={post.title} />
+        <meta property="og:image:type" content="image/jpeg" />
         
         {/* Article Specific Meta Tags */}
         <meta property="article:published_time" content={post.published_at} />
@@ -369,14 +368,19 @@ const BlogDetail = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt} />
-        {post.featured_image && (
-          <meta name="twitter:image" content={post.featured_image} />
-        )}
+        <meta name="twitter:image" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
         <meta name="twitter:site" content="@ideadigitalcreative" />
+        <meta name="twitter:creator" content="@ideadigitalcreative" />
         
         {/* Additional Meta Tags */}
         <meta name="robots" content="index, follow" />
+        <meta name="author" content={post.author} />
+        <meta name="keywords" content={post.tags ? post.tags.join(', ') : 'blog, artikel, website'} />
         <link rel="canonical" href={`https://ideadigiralcreative.com/blog/${post.slug}`} />
+        
+        {/* Additional Open Graph Tags */}
+        <meta property="og:determiner" content="the" />
+        <meta property="og:image:secure_url" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
       </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       <div className="max-w-7xl mx-auto px-4 py-8">

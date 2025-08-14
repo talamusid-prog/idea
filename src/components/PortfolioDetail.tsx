@@ -234,33 +234,50 @@ const PortfolioDetail = () => {
         <meta property="og:locale" content="id_ID" />
         
         {/* Open Graph Image */}
-        {portfolio.featured_image && (
-          <meta property="og:image" content={(() => {
+        <meta property="og:image" content={(() => {
+          if (portfolio.featured_image) {
             if (portfolio.featured_image.startsWith('portfolio-image-')) {
               return getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
             } else {
               return portfolio.featured_image;
             }
-          })()} />
-        )}
+          } else {
+            return 'https://ideadigiralcreative.com/public/logo.png';
+          }
+        })()} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={portfolio.title} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:secure_url" content={(() => {
+          if (portfolio.featured_image) {
+            if (portfolio.featured_image.startsWith('portfolio-image-')) {
+              return getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
+            } else {
+              return portfolio.featured_image;
+            }
+          } else {
+            return 'https://ideadigiralcreative.com/public/logo.png';
+          }
+        })()} />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={portfolio.title} />
         <meta name="twitter:description" content={portfolio.description} />
-        {portfolio.featured_image && (
-          <meta name="twitter:image" content={(() => {
+        <meta name="twitter:image" content={(() => {
+          if (portfolio.featured_image) {
             if (portfolio.featured_image.startsWith('portfolio-image-')) {
               return getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
             } else {
               return portfolio.featured_image;
             }
-          })()} />
-        )}
+          } else {
+            return 'https://ideadigiralcreative.com/public/logo.png';
+          }
+        })()} />
         <meta name="twitter:site" content="@ideadigitalcreative" />
+        <meta name="twitter:creator" content="@ideadigitalcreative" />
         
         {/* Additional Meta Tags */}
         <meta name="robots" content="index, follow" />
