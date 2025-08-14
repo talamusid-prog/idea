@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 16%;
+
+    /* Brand Colors */
+    --primary: 16 75% 55%; /* #EC652A */
+    --primary-foreground: 0 0% 98%;
+    --primary-dark: 16 85% 45%;
+
+    --secondary: 0 0% 16%; /* #282828 */
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: 44 85% 56%; /* #F1B62D */
+    --accent-foreground: 0 0% 16%;
+    --accent-dark: 44 92% 42%; /* #CE8D0B */
+
+    --success: 130 68% 42%; /* #25D366 */
+    --success-dark: 130 74% 32%; /* #1B9447 */
+
+    --warning: 32 92% 49%; /* #E86E0B */
+    --gold: 44 72% 52%; /* #B89124 */
+    --gold-light: 44 67% 58%; /* #DDB650 */
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 16 75% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins;
+  }
+
+  /* Custom gradients and animations */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-dark)));
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.95), hsl(var(--accent) / 0.85));
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.2);
+  }
+
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Marquee Animation */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 7s linear infinite;
+    will-change: transform;
+  }
+
+  /* Logo Slider Animation */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 15s linear infinite;
+    will-change: transform;
+  }
+
+  /* Hide scrollbar for swipeable elements */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+}
+
+/* Rich Text Editor Styles */
+[contenteditable="true"] {
+  outline: none;
+  min-height: 400px;
+  line-height: 1.6;
+}
+
+[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+[contenteditable="true"] h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+[contenteditable="true"] h2 {
+  @apply text-2xl font-bold mb-3;
+}
+
+[contenteditable="true"] h3 {
+  @apply text-xl font-bold mb-2;
+}
+
+[contenteditable="true"] p {
+  @apply mb-4;
+}
+
+[contenteditable="true"] ul {
+  @apply list-disc list-inside mb-4;
+}
+
+[contenteditable="true"] ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+[contenteditable="true"] blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-4;
+}
+
+[contenteditable="true"] a {
+  @apply text-blue-600 underline;
+}
+
+[contenteditable="true"] strong {
+  @apply font-bold;
+}
+
+[contenteditable="true"] em {
+  @apply italic;
+}
+
+[contenteditable="true"] u {
+  @apply underline;
+}
+
+/* Editor Toolbar Styles */
+.editor-toolbar button {
+  @apply transition-colors duration-200;
+}
+
+.editor-toolbar button:hover {
+  @apply bg-gray-100;
+}
+
+.editor-toolbar button.active {
+  @apply bg-blue-100 text-blue-700;
+}
