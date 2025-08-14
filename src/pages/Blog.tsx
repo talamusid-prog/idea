@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -146,6 +147,37 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>Blog & Artikel | Idea Digital Creative</title>
+        <meta name="description" content="Temukan artikel menarik seputar teknologi, bisnis, dan tips pengembangan website dari Idea Digital Creative" />
+        <meta name="keywords" content="blog, artikel, teknologi, bisnis, website, development, tips" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Blog & Artikel | Idea Digital Creative" />
+        <meta property="og:description" content="Temukan artikel menarik seputar teknologi, bisnis, dan tips pengembangan website dari Idea Digital Creative" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ideadigiralcreative.com/blog" />
+        <meta property="og:site_name" content="Idea Digital Creative" />
+        <meta property="og:locale" content="id_ID" />
+        
+        {/* Open Graph Image - Default blog image */}
+        <meta property="og:image" content="https://ideadigiralcreative.com/public/logo.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Blog & Artikel Idea Digital Creative" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Blog & Artikel | Idea Digital Creative" />
+        <meta name="twitter:description" content="Temukan artikel menarik seputar teknologi, bisnis, dan tips pengembangan website dari Idea Digital Creative" />
+        <meta name="twitter:image" content="https://ideadigiralcreative.com/public/logo.png" />
+        <meta name="twitter:site" content="@ideadigitalcreative" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://ideadigiralcreative.com/blog" />
+      </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       
       <div className="max-w-7xl mx-auto px-4 py-8">

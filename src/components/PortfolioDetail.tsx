@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -218,6 +219,53 @@ const PortfolioDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>{portfolio.title} | Idea Digital Creative</title>
+        <meta name="description" content={portfolio.description} />
+        <meta name="keywords" content={`${portfolio.category}, ${portfolio.technologies.join(', ')}, portofolio, proyek`} />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={portfolio.title} />
+        <meta property="og:description" content={portfolio.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://ideadigiralcreative.com/portfolio/${portfolio.slug}`} />
+        <meta property="og:site_name" content="Idea Digital Creative" />
+        <meta property="og:locale" content="id_ID" />
+        
+        {/* Open Graph Image */}
+        {portfolio.featured_image && (
+          <meta property="og:image" content={(() => {
+            if (portfolio.featured_image.startsWith('portfolio-image-')) {
+              return getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
+            } else {
+              return portfolio.featured_image;
+            }
+          })()} />
+        )}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={portfolio.title} />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={portfolio.title} />
+        <meta name="twitter:description" content={portfolio.description} />
+        {portfolio.featured_image && (
+          <meta name="twitter:image" content={(() => {
+            if (portfolio.featured_image.startsWith('portfolio-image-')) {
+              return getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
+            } else {
+              return portfolio.featured_image;
+            }
+          })()} />
+        )}
+        <meta name="twitter:site" content="@ideadigitalcreative" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={`https://ideadigiralcreative.com/portfolio/${portfolio.slug}`} />
+      </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb Navigation */}

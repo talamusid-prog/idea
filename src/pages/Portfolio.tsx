@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -129,6 +130,37 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>Portofolio Proyek | Idea Digital Creative</title>
+        <meta name="description" content="Kumpulan proyek-proyek terbaik yang telah kami kerjakan untuk berbagai klien. Lihat portofolio website, e-commerce, dan aplikasi web kami." />
+        <meta name="keywords" content="portofolio, proyek, website, e-commerce, aplikasi web, development, klien" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Portofolio Proyek | Idea Digital Creative" />
+        <meta property="og:description" content="Kumpulan proyek-proyek terbaik yang telah kami kerjakan untuk berbagai klien. Lihat portofolio website, e-commerce, dan aplikasi web kami." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ideadigiralcreative.com/portfolio" />
+        <meta property="og:site_name" content="Idea Digital Creative" />
+        <meta property="og:locale" content="id_ID" />
+        
+        {/* Open Graph Image - Default portfolio image */}
+        <meta property="og:image" content="https://ideadigiralcreative.com/public/logo.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Portofolio Proyek Idea Digital Creative" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Portofolio Proyek | Idea Digital Creative" />
+        <meta name="twitter:description" content="Kumpulan proyek-proyek terbaik yang telah kami kerjakan untuk berbagai klien. Lihat portofolio website, e-commerce, dan aplikasi web kami." />
+        <meta name="twitter:image" content="https://ideadigiralcreative.com/public/logo.png" />
+        <meta name="twitter:site" content="@ideadigitalcreative" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://ideadigiralcreative.com/portfolio" />
+      </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}

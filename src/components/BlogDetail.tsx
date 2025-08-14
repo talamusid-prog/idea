@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -334,6 +335,49 @@ const BlogDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>{post.title} | Idea Digital Creative</title>
+        <meta name="description" content={post.excerpt} />
+        <meta name="author" content={post.author} />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://ideadigiralcreative.com/blog/${post.slug}`} />
+        <meta property="og:site_name" content="Idea Digital Creative" />
+        <meta property="og:locale" content="id_ID" />
+        
+        {/* Open Graph Image */}
+        {post.featured_image && (
+          <meta property="og:image" content={post.featured_image} />
+        )}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={post.title} />
+        
+        {/* Article Specific Meta Tags */}
+        <meta property="article:published_time" content={post.published_at} />
+        <meta property="article:modified_time" content={post.updated_at} />
+        <meta property="article:author" content={post.author} />
+        {post.tags && post.tags.map((tag, index) => (
+          <meta key={index} property="article:tag" content={tag} />
+        ))}
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+        {post.featured_image && (
+          <meta name="twitter:image" content={post.featured_image} />
+        )}
+        <meta name="twitter:site" content="@ideadigitalcreative" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={`https://ideadigiralcreative.com/blog/${post.slug}`} />
+      </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb Navigation */}
