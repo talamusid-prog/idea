@@ -247,7 +247,7 @@ const BlogDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-muted">
         <Header onLogoClick={() => navigate('/')} />
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
           {/* Breadcrumb Navigation */}
           <div className="mb-6">
             <nav className="flex items-center space-x-2 text-sm text-muted-foreground overflow-x-auto">
@@ -274,7 +274,7 @@ const BlogDetail = () => {
             </nav>
           </div>
           
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-muted-foreground">Memuat artikel...</p>
           </div>
@@ -288,7 +288,7 @@ const BlogDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-muted">
         <Header onLogoClick={() => navigate('/')} />
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
           {/* Breadcrumb Navigation */}
           <div className="mb-6">
             <nav className="flex items-center space-x-2 text-sm text-muted-foreground overflow-x-auto">
@@ -315,7 +315,7 @@ const BlogDetail = () => {
             </nav>
           </div>
           
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <h1 className="text-2xl font-bold text-secondary mb-4">
               {error || "Artikel tidak ditemukan"}
             </h1>
@@ -383,9 +383,9 @@ const BlogDetail = () => {
         <meta property="og:image:secure_url" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
       </Helmet>
       <Header onLogoClick={() => navigate('/')} />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
         {/* Breadcrumb Navigation */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <nav className="flex items-center space-x-2 text-sm text-muted-foreground overflow-x-auto">
             <Button 
               variant="ghost" 
@@ -415,7 +415,7 @@ const BlogDetail = () => {
         
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {/* Article Content - 3 columns */}
           <div className="lg:col-span-3">
             <article className="bg-white/80 backdrop-blur-sm border-white/20 shadow-lg rounded-lg overflow-hidden">
@@ -444,7 +444,7 @@ const BlogDetail = () => {
               )}
 
               {/* Article Content */}
-              <div className="p-6 md:p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                                   {/* Title */}
                   <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-4 leading-tight">
                     {post.title}
@@ -551,7 +551,7 @@ const BlogDetail = () => {
             <div className="sticky top-24 space-y-6">
               {/* Popular Posts Sidebar */}
               <Card className="bg-white/80 backdrop-blur-sm border-white/20 shadow-lg">
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center gap-2 mb-6">
                     <Flame className="h-5 w-5 text-orange-500" />
                     <h3 className="text-lg font-bold text-secondary">
@@ -609,7 +609,7 @@ const BlogDetail = () => {
 
               {/* Popular Tags Sidebar */}
               <Card className="bg-white/80 backdrop-blur-sm border-white/20 shadow-lg">
-                <CardContent className="p-8">
+                <CardContent className="p-4 sm:p-6 md:p-8">
                                      <div className="flex items-center gap-2 mb-6">
                      <Tag className="h-5 w-5 text-orange-500" />
                      <h3 className="text-xl font-bold text-secondary">
@@ -649,7 +649,7 @@ const BlogDetail = () => {
             <h2 className="text-2xl font-bold text-secondary mb-6">
               Artikel Terkait
             </h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
               {relatedPosts.map((relatedPost) => (
                 <Card key={relatedPost.id} className="group hover:shadow-lg transition-all duration-300 bg-white/80 backdrop-blur-sm border-white/20">
                   {/* Thumbnail for related posts */}
@@ -673,7 +673,7 @@ const BlogDetail = () => {
                       </div>
                     </div>
                   )}
-                  <CardContent className="p-4">
+                  <CardContent className="p-3 sm:p-4">
                     <h3 className="font-semibold text-lg text-secondary group-hover:text-primary transition-colors line-clamp-2 mb-2">
                       {relatedPost.title}
                     </h3>
@@ -708,7 +708,7 @@ const BlogDetail = () => {
         {/* Comments Section (Placeholder) */}
         <div className="mt-12">
           <Card className="bg-white/80 backdrop-blur-sm border-white/20 shadow-lg">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <h3 className="text-xl font-bold text-secondary mb-4">
                 Komentar
               </h3>

@@ -108,3 +108,4 @@ Setelah testing, seharusnya:
 - Data featured_image tersimpan ke database dengan benar
 - Ketika portfolio di-load ulang, featured_image tidak null
 - Thumbnail portfolio tampil di halaman admin dan home
+
