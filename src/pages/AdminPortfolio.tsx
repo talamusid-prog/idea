@@ -24,7 +24,7 @@ import {
   Download
 } from "lucide-react";
 import { getAllPortfolios, createPortfolioWithSlug, updatePortfolioBySlug, deletePortfolio } from "@/lib/portfolioService";
-import { savePortfolioImage, getPortfolioImage } from "@/lib/portfolioImageService";
+import { savePortfolioImage, getPortfolioImage, savePortfolioImageToPublic } from "@/lib/portfolioImageService";
 import { Portfolio, CreatePortfolio } from "@/lib/supabase";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError, showWarning, showConfirm } from "@/lib/sweetAlert";
@@ -63,12 +63,19 @@ const AdminPortfolio = () => {
 
   // Fungsi untuk menyimpan gambar menggunakan service baru
   const saveImageToLocal = async (file: File): Promise<string | null> => {
-    return await savePortfolioImage(file);
+    // Gunakan sistem public folder
+    const result = await savePortfolioImageToPublic(file);
+    return result;
   };
 
   // Fungsi untuk mengambil gambar dari storage
   const getImageFromLocal = (imageKey: string): string | null => {
     try {
+      // Check if it's already a base64 data URL (seperti blog)
+      if (imageKey.startsWith('data:image/')) {
+        return imageKey;
+      }
+      
       const image = getPortfolioImage(imageKey);
       return image;
     } catch (error) {
@@ -237,8 +244,10 @@ const AdminPortfolio = () => {
     });
     // Set image preview if portfolio has featured image
     if (portfolio.featured_image) {
-      // Check if it's a local storage key or external URL
-      if (portfolio.featured_image.startsWith('portfolio-image-')) {
+      // Check if it's already a base64 data URL (seperti blog)
+      if (portfolio.featured_image.startsWith('data:image/')) {
+        setImagePreview(portfolio.featured_image);
+      } else if (portfolio.featured_image.startsWith('portfolio-image-')) {
         const localImage = getImageFromLocal(portfolio.featured_image);
         setImagePreview(localImage || "");
       } else {
@@ -435,18 +444,28 @@ const AdminPortfolio = () => {
                 <CardHeader className="pb-4">
                   {portfolio.featured_image ? (
                     <div className="aspect-video overflow-hidden rounded-lg mb-4">
-                                             {(() => {
-                         const imageSrc = portfolio.featured_image.startsWith('portfolio-image-') 
-                           ? getImageFromLocal(portfolio.featured_image) || ''
-                           : portfolio.featured_image;
-                         return (
-                           <img
-                             src={imageSrc}
-                             alt={portfolio.title}
-                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                           />
-                         );
-                       })()}
+                                                                     {(() => {
+                          let imageSrc = '';
+                          
+                          if (portfolio.featured_image) {
+                            // Check if it's already a base64 data URL (seperti blog)
+                            if (portfolio.featured_image.startsWith('data:image/')) {
+                              imageSrc = portfolio.featured_image;
+                            } else if (portfolio.featured_image.startsWith('portfolio-image-')) {
+                              imageSrc = getImageFromLocal(portfolio.featured_image) || '';
+                            } else {
+                              imageSrc = portfolio.featured_image;
+                            }
+                          }
+                          
+                          return (
+                            <img
+                              src={imageSrc}
+                              alt={portfolio.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          );
+                        })()}
                     </div>
                   ) : (
                     <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center rounded-lg mb-4">
@@ -676,12 +695,12 @@ const AdminPortfolio = () => {
                           </div>
                         )}
                         
-                        {/* File info */}
-                        <div className="text-xs text-muted-foreground">
-                          <p>Format yang didukung: JPG, PNG, WebP, GIF</p>
-                          <p>Ukuran maksimal: 5MB</p>
-                          <p className="text-blue-600">💾 Gambar akan disimpan di browser Anda</p>
-                        </div>
+                                                 {/* File info */}
+                         <div className="text-xs text-muted-foreground">
+                           <p>Format yang didukung: JPG, PNG, WebP, GIF</p>
+                           <p>Ukuran maksimal: 5MB</p>
+                           <p className="text-blue-600">💾 Gambar akan disimpan sebagai base64 (seperti blog)</p>
+                         </div>
                         
                         {/* URL input as fallback */}
                         <div>

@@ -39,7 +39,38 @@ initBroadcastChannel();
 //   }, 2000); // Wait 2 seconds after page load
 // }
 
-// Fungsi untuk menyimpan gambar dengan sistem berbagi antar tab
+// Fungsi untuk menyimpan gambar menggunakan base64 langsung (seperti blog)
+export const savePortfolioImageToPublic = async (file: File): Promise<string | null> => {
+  try {
+    // Convert file to base64 langsung (seperti blog)
+    const base64 = await convertFileToBase64(file);
+    
+    // Generate unique key untuk database
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(2, 11);
+    const imageKey = `portfolio-image-${timestamp}-${randomId}`;
+    
+    // Save to localStorage dan sessionStorage untuk backup
+    try {
+      localStorage.setItem(imageKey, base64);
+      sessionStorage.setItem(imageKey, base64);
+    } catch (storageError) {
+      console.error('❌ [IMAGE SERVICE] Storage backup failed:', storageError);
+    }
+    
+    // Broadcast to other tabs
+    broadcastImageToOtherTabs(imageKey, base64);
+    
+    // Return base64 langsung (seperti blog)
+    return base64;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error saving image:', error);
+    return null;
+  }
+};
+
+// Fungsi untuk menyimpan gambar dengan sistem berbagi antar tab (legacy - untuk backward compatibility)
 export const savePortfolioImage = async (file: File): Promise<string | null> => {
   try {
     // Convert file to base64
@@ -50,39 +81,44 @@ export const savePortfolioImage = async (file: File): Promise<string | null> => 
     const randomId = Math.random().toString(36).substring(2, 11);
     const imageKey = `portfolio-image-${timestamp}-${randomId}`;
 
-    // Save to localStorage and sessionStorage with retry mechanism
     let localStorageSuccess = false;
     let sessionStorageSuccess = false;
-    
-    // Try localStorage first
-    try {
-      localStorage.setItem(imageKey, base64);
-      const verifyLocal = localStorage.getItem(imageKey);
-      localStorageSuccess = verifyLocal === base64;
-    } catch (localError) {
-      console.error('❌ [IMAGE SERVICE] localStorage save failed:', localError);
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    while ((!localStorageSuccess || !sessionStorageSuccess) && retryCount < maxRetries) {
+      try {
+        localStorage.setItem(imageKey, base64);
+        const verifyLocal = localStorage.getItem(imageKey);
+        localStorageSuccess = verifyLocal === base64;
+      } catch (localError) {
+        console.error('❌ [IMAGE SERVICE] localStorage save failed:', localError);
+      }
+
+      try {
+        sessionStorage.setItem(imageKey, base64);
+        const verifySession = sessionStorage.getItem(imageKey);
+        sessionStorageSuccess = verifySession === base64;
+      } catch (sessionError) {
+        console.error('❌ [IMAGE SERVICE] sessionStorage save failed:', sessionError);
+      }
+
+      if (!localStorageSuccess || !sessionStorageSuccess) {
+        retryCount++;
+        await new Promise(resolve => setTimeout(resolve, 100 * retryCount)); // Exponential backoff
+      }
     }
-    
-    // Try sessionStorage
-    try {
-      sessionStorage.setItem(imageKey, base64);
-      const verifySession = sessionStorage.getItem(imageKey);
-      sessionStorageSuccess = verifySession === base64;
-    } catch (sessionError) {
-      console.error('❌ [IMAGE SERVICE] sessionStorage save failed:', sessionError);
-    }
-    
+
     if (localStorageSuccess || sessionStorageSuccess) {
       // Broadcast to other tabs
       broadcastImageToOtherTabs(imageKey, base64);
-      
       return imageKey;
     } else {
-      console.error('❌ [IMAGE SERVICE] Failed to save image to any storage');
+      console.error('❌ [IMAGE SERVICE] Failed to save image to both localStorage and sessionStorage after retries.');
       return null;
     }
   } catch (error) {
-    console.error('❌ [IMAGE SERVICE] Error saving image to storage:', error);
+    console.error('❌ [IMAGE SERVICE] Error saving image:', error);
     return null;
   }
 };
@@ -90,24 +126,38 @@ export const savePortfolioImage = async (file: File): Promise<string | null> => 
 // Fungsi untuk mengambil gambar dari storage
 export const getPortfolioImage = (imageKey: string): string | null => {
   try {
-    // Try localStorage first
-    let image = localStorage.getItem(imageKey);
-    
-    if (image) {
-      // Check if it's a real image (base64) or placeholder
-      if (image.startsWith('data:image/')) {
-        return image;
-      }
+    // Check if it's already a base64 data URL (seperti blog)
+    if (imageKey.startsWith('data:image/')) {
+      return imageKey;
     }
     
-    // Try sessionStorage as fallback
-    image = sessionStorage.getItem(imageKey);
-    if (image) {
-      // Check if it's a real image (base64) or placeholder
-      if (image.startsWith('data:image/')) {
-        return image;
-      } else {
-        return null; // Don't return placeholder, let fallback handle it
+    // Check if it's a public path
+    if (imageKey.startsWith('/portfolio-images/')) {
+      return imageKey;
+    }
+    
+    // Check if it's a portfolio-image key (legacy)
+    if (imageKey.startsWith('portfolio-image-')) {
+      // Try localStorage first
+      let image = localStorage.getItem(imageKey);
+      
+      if (image) {
+        // Check if it's a real image (base64) or placeholder
+        if (image.startsWith('data:image/')) {
+          return image;
+        }
+      }
+      
+      // Try sessionStorage as fallback
+      image = sessionStorage.getItem(imageKey);
+      
+      if (image) {
+        // Check if it's a real image (base64) or placeholder
+        if (image.startsWith('data:image/')) {
+          return image;
+        } else {
+          return null; // Don't return placeholder, let fallback handle it
+        }
       }
     }
     

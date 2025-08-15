@@ -46,3 +46,11 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Portfolio images (keep folder but ignore image files)
+public/portfolio-images/*.jpg
+public/portfolio-images/*.jpeg
+public/portfolio-images/*.png
+public/portfolio-images/*.webp
+public/portfolio-images/*.gif
+public/portfolio-images/*.svg
