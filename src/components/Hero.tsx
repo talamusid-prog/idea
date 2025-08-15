@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <section id="home" className="pt-8 lg:pt-16 lg:mt-8 pb-60 lg:pb-16 bg-gradient-to-br from-background to-muted relative overflow-hidden">
+    <section id="home" className="pt-8 lg:pt-16 lg:mt-0 pb-60 lg:pb-32 bg-gradient-to-br from-background to-muted relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid lg:grid-cols-3 gap-12 items-end">
           {/* Left Content */}
@@ -38,7 +38,7 @@ const Hero = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border justify-items-center">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">500+</div>
+                <div className="text-2xl font-bold text-primary">100+</div>
                 <div className="text-sm text-muted-foreground">Website Selesai</div>
               </div>
               <div className="text-center">
@@ -62,7 +62,7 @@ const Hero = () => {
         <img
           src="/jasa1.webp"
           alt="Jasa Website Development"
-          className="w-full h-auto lg:w-auto lg:max-h-[80vh] lg:object-contain"
+          className="w-full h-auto lg:w-auto lg:max-h-[65vh] lg:object-contain"
         />
       </div>
 
