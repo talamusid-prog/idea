@@ -37,8 +37,16 @@ const Portfolio = () => {
     
     // Listen for image updates from other tabs
     const cleanup = listenForImageUpdates((key, data) => {
+      console.log('🔄 [HOME] Image updated from other tab:', key);
       loadPortfolios();
     });
+    
+    // Debug storage status on mount
+    setTimeout(() => {
+      import('@/lib/portfolioImageService').then(({ debugStorageStatus }) => {
+        debugStorageStatus();
+      });
+    }, 1000);
     
     return cleanup;
   }, []);
@@ -187,17 +195,27 @@ const Portfolio = () => {
                             let imageSrc = '';
                             if (portfolio.featured_image) {
                               if (portfolio.featured_image.startsWith('portfolio-image-')) {
+                                console.log('🖼️ [HOME] Loading local image for:', portfolio.title, portfolio.featured_image);
                                 imageSrc = getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
                               } else {
+                                console.log('🖼️ [HOME] Loading external image for:', portfolio.title, portfolio.featured_image);
                                 imageSrc = portfolio.featured_image;
                               }
                             } else {
+                              console.log('🖼️ [HOME] No image, using fallback for:', portfolio.title);
                               imageSrc = getPortfolioImageWithFallback('', portfolio.category, portfolio.title);
                             }
+                            console.log('🖼️ [HOME] Final image src for', portfolio.title, ':', imageSrc.substring(0, 50) + '...');
                             return imageSrc;
                           })()}
                           alt={portfolio.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          onError={(e) => {
+                            console.error('❌ [HOME] Image failed to load for:', portfolio.title, e.target);
+                          }}
+                          onLoad={() => {
+                            console.log('✅ [HOME] Image loaded successfully for:', portfolio.title);
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">

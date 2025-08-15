@@ -31,13 +31,18 @@ initBroadcastChannel();
 // Fungsi untuk menyimpan gambar dengan sistem berbagi antar tab
 export const savePortfolioImage = async (file: File): Promise<string | null> => {
   try {
+    console.log('🖼️ [IMAGE SERVICE] Saving image to storage...', { fileName: file.name, fileSize: file.size });
+    
     // Convert file to base64
     const base64 = await convertFileToBase64(file);
+    console.log('🖼️ [IMAGE SERVICE] File converted to base64, length:', base64.length);
 
     // Generate unique key
     const timestamp = Date.now();
     const randomId = Math.random().toString(36).substring(2, 11);
     const imageKey = `portfolio-image-${timestamp}-${randomId}`;
+    
+    console.log('🖼️ [IMAGE SERVICE] Generated image key:', imageKey);
 
     // Save to localStorage and sessionStorage
     localStorage.setItem(imageKey, base64);
@@ -46,15 +51,18 @@ export const savePortfolioImage = async (file: File): Promise<string | null> => 
     // Verify save
     const savedImage = localStorage.getItem(imageKey);
     if (savedImage) {
+      console.log('✅ [IMAGE SERVICE] Image saved successfully to storage');
+      
       // Broadcast to other tabs
       broadcastImageToOtherTabs(imageKey, base64);
       
       return imageKey;
     } else {
+      console.error('❌ [IMAGE SERVICE] Failed to save image to storage');
       return null;
     }
   } catch (error) {
-    console.error('❌ Error saving image to storage:', error);
+    console.error('❌ [IMAGE SERVICE] Error saving image to storage:', error);
     return null;
   }
 };
@@ -62,22 +70,27 @@ export const savePortfolioImage = async (file: File): Promise<string | null> => 
 // Fungsi untuk mengambil gambar dari storage
 export const getPortfolioImage = (imageKey: string): string | null => {
   try {
+    console.log('🖼️ [IMAGE SERVICE] Getting image from storage:', imageKey);
+    
     // Try localStorage first
     let image = localStorage.getItem(imageKey);
     
     if (image) {
+      console.log('✅ [IMAGE SERVICE] Image found in localStorage');
       return image;
     }
     
     // Try sessionStorage as fallback
     image = sessionStorage.getItem(imageKey);
     if (image) {
+      console.log('✅ [IMAGE SERVICE] Image found in sessionStorage');
       return image;
     }
     
+    console.log('❌ [IMAGE SERVICE] Image not found in storage');
     return null;
   } catch (error) {
-    console.error('❌ Error getting image from storage:', error);
+    console.error('❌ [IMAGE SERVICE] Error getting image from storage:', error);
     return null;
   }
 };
@@ -170,6 +183,8 @@ const convertFileToBase64 = (file: File): Promise<string> => {
 // Fungsi untuk sync gambar dari database ke storage
 export const syncImagesFromDatabase = async () => {
   try {
+    console.log('🔄 [IMAGE SERVICE] Starting image sync from database...');
+    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -177,24 +192,69 @@ export const syncImagesFromDatabase = async () => {
       .not('featured_image', 'is', null);
     
     if (error) {
-      console.error('❌ Error fetching portfolios for sync:', error);
+      console.error('❌ [IMAGE SERVICE] Error fetching portfolios for sync:', error);
       return;
     }
     
+    console.log('🔄 [IMAGE SERVICE] Found portfolios with images:', portfolios?.length);
+    
     // Check which images are missing from storage
+    let missingCount = 0;
     portfolios?.forEach(portfolio => {
       if (portfolio.featured_image && portfolio.featured_image.startsWith('portfolio-image-')) {
         const existsInLocal = localStorage.getItem(portfolio.featured_image);
         const existsInSession = sessionStorage.getItem(portfolio.featured_image);
         
         if (!existsInLocal && !existsInSession) {
-          console.log(`⚠️ Image missing for portfolio: ${portfolio.title} (${portfolio.featured_image})`);
+          console.log(`⚠️ [IMAGE SERVICE] Image missing for portfolio: ${portfolio.title} (${portfolio.featured_image})`);
+          missingCount++;
+        } else {
+          console.log(`✅ [IMAGE SERVICE] Image exists for portfolio: ${portfolio.title}`);
         }
       }
     });
     
+    console.log(`🔄 [IMAGE SERVICE] Sync complete. Missing images: ${missingCount}`);
+    
   } catch (error) {
-    console.error('❌ Error syncing images:', error);
+    console.error('❌ [IMAGE SERVICE] Error syncing images:', error);
+  }
+};
+
+// Fungsi untuk debug storage status
+export const debugStorageStatus = () => {
+  try {
+    console.log('🔍 [IMAGE SERVICE] Debugging storage status...');
+    
+    const localStorageKeys = [];
+    const sessionStorageKeys = [];
+    
+    // Get all localStorage keys
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('portfolio-image-')) {
+        localStorageKeys.push(key);
+      }
+    }
+    
+    // Get all sessionStorage keys
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key && key.startsWith('portfolio-image-')) {
+        sessionStorageKeys.push(key);
+      }
+    }
+    
+    console.log('🔍 [IMAGE SERVICE] localStorage portfolio images:', localStorageKeys.length, localStorageKeys);
+    console.log('🔍 [IMAGE SERVICE] sessionStorage portfolio images:', sessionStorageKeys.length, sessionStorageKeys);
+    
+    return {
+      localStorage: localStorageKeys,
+      sessionStorage: sessionStorageKeys
+    };
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error debugging storage:', error);
+    return { localStorage: [], sessionStorage: [] };
   }
 };
 
@@ -236,7 +296,54 @@ export const importImages = (images: Record<string, string>) => {
     
     return importedCount;
   } catch (error) {
-    console.error('❌ Error importing images:', error);
+    console.error('❌ [IMAGE SERVICE] Error importing images:', error);
+    return 0;
+  }
+};
+
+// Fungsi untuk memperbaiki gambar yang hilang
+export const fixMissingImages = async () => {
+  try {
+    console.log('🔧 [IMAGE SERVICE] Starting to fix missing images...');
+    
+    // Get all portfolios from database
+    const { data: portfolios, error } = await supabase
+      .from('portfolios')
+      .select('id, title, featured_image, category')
+      .not('featured_image', 'is', null);
+    
+    if (error) {
+      console.error('❌ [IMAGE SERVICE] Error fetching portfolios for fix:', error);
+      return;
+    }
+    
+    let fixedCount = 0;
+    portfolios?.forEach(portfolio => {
+      if (portfolio.featured_image && portfolio.featured_image.startsWith('portfolio-image-')) {
+        const existsInLocal = localStorage.getItem(portfolio.featured_image);
+        const existsInSession = sessionStorage.getItem(portfolio.featured_image);
+        
+        if (!existsInLocal && !existsInSession) {
+          console.log(`🔧 [IMAGE SERVICE] Image missing for portfolio: ${portfolio.title} (${portfolio.featured_image})`);
+          
+          // Try to get from other tabs or use placeholder
+          const placeholder = getPlaceholderImageByTitle(portfolio.title) || getPlaceholderImage(portfolio.category);
+          
+          // Save placeholder as the missing image temporarily
+          localStorage.setItem(portfolio.featured_image, placeholder);
+          sessionStorage.setItem(portfolio.featured_image, placeholder);
+          
+          console.log(`🔧 [IMAGE SERVICE] Fixed missing image for: ${portfolio.title}`);
+          fixedCount++;
+        }
+      }
+    });
+    
+    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} missing images`);
+    return fixedCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error fixing missing images:', error);
     return 0;
   }
 };
@@ -275,16 +382,23 @@ export const getPlaceholderImageByTitle = (title: string): string => {
 
 // Fungsi untuk mendapatkan gambar dengan fallback yang lebih robust
 export const getPortfolioImageWithFallback = (imageKey: string, category: string = 'default', title: string = ''): string => {
+  console.log('🖼️ [IMAGE SERVICE] Getting image with fallback:', { imageKey, category, title });
+  
   // Try to get from storage first
   const storedImage = getPortfolioImage(imageKey);
   if (storedImage) {
+    console.log('✅ [IMAGE SERVICE] Using stored image');
     return storedImage;
   }
   
   // If not found in storage, return placeholder based on title first, then category
   if (title) {
-    return getPlaceholderImageByTitle(title);
+    const placeholderByTitle = getPlaceholderImageByTitle(title);
+    console.log('🖼️ [IMAGE SERVICE] Using placeholder by title:', placeholderByTitle);
+    return placeholderByTitle;
   }
   
-  return getPlaceholderImage(category);
+  const placeholderByCategory = getPlaceholderImage(category);
+  console.log('🖼️ [IMAGE SERVICE] Using placeholder by category:', placeholderByCategory);
+  return placeholderByCategory;
 };
