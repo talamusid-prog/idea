@@ -159,7 +159,7 @@ const Testimonials = () => {
               ))}
             </div>
             <span className="text-success font-semibold text-sm lg:text-base">
-              4.9/5 dari 500+ review klien
+              4.9/5 dari 100+ review klien
             </span>
           </div>
         </div>
