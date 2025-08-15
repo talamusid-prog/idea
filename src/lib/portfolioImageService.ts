@@ -206,8 +206,6 @@ const convertFileToBase64 = (file: File): Promise<string> => {
 // Fungsi untuk sync gambar dari database ke storage
 export const syncImagesFromDatabase = async () => {
   try {
-    console.log('🔄 [IMAGE SERVICE] Starting image sync from database...');
-    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -219,8 +217,6 @@ export const syncImagesFromDatabase = async () => {
       return;
     }
     
-    console.log('🔄 [IMAGE SERVICE] Found portfolios with images:', portfolios?.length);
-    
     // Check which images are missing from storage
     let missingCount = 0;
     portfolios?.forEach(portfolio => {
@@ -229,15 +225,10 @@ export const syncImagesFromDatabase = async () => {
         const existsInSession = sessionStorage.getItem(portfolio.featured_image);
         
         if (!existsInLocal && !existsInSession) {
-          console.log(`⚠️ [IMAGE SERVICE] Image missing for portfolio: ${portfolio.title} (${portfolio.featured_image})`);
           missingCount++;
-        } else {
-          console.log(`✅ [IMAGE SERVICE] Image exists for portfolio: ${portfolio.title}`);
         }
       }
     });
-    
-    console.log(`🔄 [IMAGE SERVICE] Sync complete. Missing images: ${missingCount}`);
     
   } catch (error) {
     console.error('❌ [IMAGE SERVICE] Error syncing images:', error);
@@ -247,8 +238,6 @@ export const syncImagesFromDatabase = async () => {
 // Fungsi untuk debug storage status
 export const debugStorageStatus = () => {
   try {
-    console.log('🔍 [IMAGE SERVICE] Debugging storage status...');
-    
     const localStorageKeys = [];
     const sessionStorageKeys = [];
     
@@ -267,9 +256,6 @@ export const debugStorageStatus = () => {
         sessionStorageKeys.push(key);
       }
     }
-    
-    console.log('🔍 [IMAGE SERVICE] localStorage portfolio images:', localStorageKeys.length, localStorageKeys);
-    console.log('🔍 [IMAGE SERVICE] sessionStorage portfolio images:', sessionStorageKeys.length, sessionStorageKeys);
     
     return {
       localStorage: localStorageKeys,
@@ -327,8 +313,6 @@ export const importImages = (images: Record<string, string>) => {
 // Fungsi untuk memperbaiki gambar yang hilang
 export const fixMissingImages = async () => {
   try {
-    console.log('🔧 [IMAGE SERVICE] Starting to fix missing images...');
-    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -347,8 +331,6 @@ export const fixMissingImages = async () => {
         const existsInSession = sessionStorage.getItem(portfolio.featured_image);
         
         if (!existsInLocal && !existsInSession) {
-          console.log(`🔧 [IMAGE SERVICE] Image missing for portfolio: ${portfolio.title} (${portfolio.featured_image})`);
-          
           // Try to get from other tabs or use placeholder
           const placeholder = getPlaceholderImageByTitle(portfolio.title) || getPlaceholderImage(portfolio.category);
           
@@ -356,13 +338,11 @@ export const fixMissingImages = async () => {
           localStorage.setItem(portfolio.featured_image, placeholder);
           sessionStorage.setItem(portfolio.featured_image, placeholder);
           
-          console.log(`🔧 [IMAGE SERVICE] Fixed missing image for: ${portfolio.title}`);
           fixedCount++;
         }
       }
     });
     
-    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} missing images`);
     return fixedCount;
     
   } catch (error) {
@@ -374,8 +354,6 @@ export const fixMissingImages = async () => {
 // Fungsi untuk membersihkan placeholder yang salah tersimpan
 export const cleanupPlaceholderImages = () => {
   try {
-    console.log('🧹 [IMAGE SERVICE] Cleaning up placeholder images...');
-    
     let cleanedCount = 0;
     
     // Clean localStorage
@@ -384,8 +362,6 @@ export const cleanupPlaceholderImages = () => {
       if (key && key.startsWith('portfolio-image-')) {
         const value = localStorage.getItem(key);
         if (value && !value.startsWith('data:image/')) {
-          console.log(`🧹 [IMAGE SERVICE] Removing placeholder from localStorage: ${key}`);
-          console.log(`🧹 [IMAGE SERVICE] Placeholder value: ${value.substring(0, 50)}...`);
           localStorage.removeItem(key);
           cleanedCount++;
         }
@@ -398,15 +374,12 @@ export const cleanupPlaceholderImages = () => {
       if (key && key.startsWith('portfolio-image-')) {
         const value = sessionStorage.getItem(key);
         if (value && !value.startsWith('data:image/')) {
-          console.log(`🧹 [IMAGE SERVICE] Removing placeholder from sessionStorage: ${key}`);
-          console.log(`🧹 [IMAGE SERVICE] Placeholder value: ${value.substring(0, 50)}...`);
           sessionStorage.removeItem(key);
           cleanedCount++;
         }
       }
     }
     
-    console.log(`🧹 [IMAGE SERVICE] Cleaned ${cleanedCount} placeholder images`);
     return cleanedCount;
     
   } catch (error) {
@@ -418,8 +391,6 @@ export const cleanupPlaceholderImages = () => {
 // Fungsi untuk memaksa reload semua gambar dari database
 export const forceReloadAllImages = async () => {
   try {
-    console.log('🔄 [IMAGE SERVICE] Force reloading all images from database...');
-    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -437,12 +408,10 @@ export const forceReloadAllImages = async () => {
         // Remove the image from storage to force fallback
         localStorage.removeItem(portfolio.featured_image);
         sessionStorage.removeItem(portfolio.featured_image);
-        console.log(`🔄 [IMAGE SERVICE] Removed image from storage for: ${portfolio.title} (${portfolio.featured_image})`);
         reloadedCount++;
       }
     });
     
-    console.log(`🔄 [IMAGE SERVICE] Force reloaded ${reloadedCount} images`);
     return reloadedCount;
     
   } catch (error) {
@@ -454,8 +423,6 @@ export const forceReloadAllImages = async () => {
 // Fungsi untuk menyimpan ulang gambar yang ada di database ke storage
 export const restoreImagesFromDatabase = async () => {
   try {
-    console.log('🔄 [IMAGE SERVICE] Restoring images from database...');
-    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -482,7 +449,6 @@ export const restoreImagesFromDatabase = async () => {
           try {
             localStorage.setItem(portfolio.featured_image, placeholder);
             sessionStorage.setItem(portfolio.featured_image, placeholder);
-            console.log(`🔄 [IMAGE SERVICE] Restored image for: ${portfolio.title} (${portfolio.featured_image})`);
             restoredCount++;
           } catch (storageError) {
             console.error(`❌ [IMAGE SERVICE] Failed to restore image for: ${portfolio.title}`, storageError);
@@ -491,7 +457,6 @@ export const restoreImagesFromDatabase = async () => {
       }
     });
     
-    console.log(`🔄 [IMAGE SERVICE] Restored ${restoredCount} images from database`);
     return restoredCount;
     
   } catch (error) {
@@ -503,8 +468,6 @@ export const restoreImagesFromDatabase = async () => {
 // Fungsi untuk memperbaiki gambar yang hanya tersimpan di sessionStorage
 export const fixSessionStorageOnlyImages = () => {
   try {
-    console.log('🔧 [IMAGE SERVICE] Fixing images that are only in sessionStorage...');
-    
     let fixedCount = 0;
     
     // Get all sessionStorage keys
@@ -518,7 +481,6 @@ export const fixSessionStorageOnlyImages = () => {
         if (sessionData && !localData && sessionData.startsWith('data:image/')) {
           try {
             localStorage.setItem(key, sessionData);
-            console.log(`🔧 [IMAGE SERVICE] Fixed image: ${key} (copied from sessionStorage to localStorage)`);
             fixedCount++;
           } catch (error) {
             console.error(`❌ [IMAGE SERVICE] Failed to copy image to localStorage: ${key}`, error);
@@ -527,7 +489,6 @@ export const fixSessionStorageOnlyImages = () => {
       }
     }
     
-    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} sessionStorage-only images`);
     return fixedCount;
     
   } catch (error) {
@@ -539,8 +500,6 @@ export const fixSessionStorageOnlyImages = () => {
 // Fungsi untuk memperbaiki gambar yang salah tersimpan (placeholder di storage)
 export const fixCorruptedImages = async () => {
   try {
-    console.log('🔧 [IMAGE SERVICE] Fixing corrupted images (placeholders in storage)...');
-    
     // Get all portfolios from database
     const { data: portfolios, error } = await supabase
       .from('portfolios')
@@ -563,18 +522,12 @@ export const fixCorruptedImages = async () => {
         const isSessionCorrupted = sessionData && !sessionData.startsWith('data:image/');
         
         if (isLocalCorrupted || isSessionCorrupted) {
-          console.log(`🔧 [IMAGE SERVICE] Found corrupted image for: ${portfolio.title}`);
-          console.log(`🔧 [IMAGE SERVICE] Local data: ${localData?.substring(0, 50)}...`);
-          console.log(`🔧 [IMAGE SERVICE] Session data: ${sessionData?.substring(0, 50)}...`);
-          
           // Remove corrupted data
           if (isLocalCorrupted) {
             localStorage.removeItem(portfolio.featured_image);
-            console.log(`🔧 [IMAGE SERVICE] Removed corrupted data from localStorage: ${portfolio.featured_image}`);
           }
           if (isSessionCorrupted) {
             sessionStorage.removeItem(portfolio.featured_image);
-            console.log(`🔧 [IMAGE SERVICE] Removed corrupted data from sessionStorage: ${portfolio.featured_image}`);
           }
           
           fixedCount++;
@@ -582,7 +535,6 @@ export const fixCorruptedImages = async () => {
       }
     });
     
-    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} corrupted images`);
     return fixedCount;
     
   } catch (error) {

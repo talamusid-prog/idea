@@ -224,12 +224,7 @@ const Portfolio = () => {
                         })()}
                           alt={portfolio.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          onError={(e) => {
-                            console.error('❌ [HOME] Image failed to load for:', portfolio.title, e.target);
-                          }}
-                          onLoad={() => {
-                            console.log('✅ [HOME] Image loaded successfully for:', portfolio.title);
-                          }}
+
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
