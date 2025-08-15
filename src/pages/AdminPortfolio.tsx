@@ -24,7 +24,7 @@ import {
   Download
 } from "lucide-react";
 import { getAllPortfolios, createPortfolioWithSlug, updatePortfolioBySlug, deletePortfolio } from "@/lib/portfolioService";
-import { savePortfolioImage, getPortfolioImage, debugStorageStatus, fixMissingImages } from "@/lib/portfolioImageService";
+import { savePortfolioImage, getPortfolioImage } from "@/lib/portfolioImageService";
 import { Portfolio, CreatePortfolio } from "@/lib/supabase";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError, showWarning, showConfirm } from "@/lib/sweetAlert";
@@ -416,28 +416,7 @@ const AdminPortfolio = () => {
               <p className="text-muted-foreground">Kelola semua portofolio proyek</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button 
-              onClick={() => {
-                debugStorageStatus();
-                showSuccess('Debug info ditampilkan di console');
-              }} 
-              variant="outline" 
-              className="flex items-center gap-2 text-xs"
-            >
-              Debug Images
-            </Button>
-            <Button 
-              onClick={async () => {
-                const fixed = await fixMissingImages();
-                showSuccess(`Berhasil memperbaiki ${fixed} gambar yang hilang`);
-                loadPortfolios();
-              }} 
-              variant="outline" 
-              className="flex items-center gap-2 text-xs"
-            >
-              Fix Missing Images
-            </Button>
+                     <div className="flex items-center gap-2">
             <Button onClick={exportPortfolioData} variant="outline" className="flex items-center gap-2">
               <Download className="h-4 w-4" />
               Export Data

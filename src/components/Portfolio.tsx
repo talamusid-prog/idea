@@ -41,10 +41,28 @@ const Portfolio = () => {
       loadPortfolios();
     });
     
-    // Debug storage status on mount
+    // Debug storage status and fix missing images on mount
     setTimeout(() => {
-      import('@/lib/portfolioImageService').then(({ debugStorageStatus }) => {
+      import('@/lib/portfolioImageService').then(({ debugStorageStatus, fixMissingImages, fixSessionStorageOnlyImages }) => {
         debugStorageStatus();
+        
+        // Fix sessionStorage-only images first
+        const sessionFixed = fixSessionStorageOnlyImages();
+        if (sessionFixed > 0) {
+          console.log(`🔧 [HOME] Auto-fixed ${sessionFixed} sessionStorage-only images`);
+        }
+        
+        // Then fix missing images
+        fixMissingImages().then((fixedCount) => {
+          if (fixedCount > 0) {
+            console.log(`🔧 [HOME] Auto-fixed ${fixedCount} missing images on load`);
+          }
+          
+          // Reload portfolios if any fixes were applied
+          if (sessionFixed > 0 || fixedCount > 0) {
+            loadPortfolios();
+          }
+        });
       });
     }, 1000);
     
@@ -191,23 +209,19 @@ const Portfolio = () => {
                     <div className="relative overflow-hidden h-full">
                       {portfolio.featured_image ? (
                         <img
-                          src={(() => {
-                            let imageSrc = '';
-                            if (portfolio.featured_image) {
-                              if (portfolio.featured_image.startsWith('portfolio-image-')) {
-                                console.log('🖼️ [HOME] Loading local image for:', portfolio.title, portfolio.featured_image);
-                                imageSrc = getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
-                              } else {
-                                console.log('🖼️ [HOME] Loading external image for:', portfolio.title, portfolio.featured_image);
-                                imageSrc = portfolio.featured_image;
-                              }
+                                                  src={(() => {
+                          let imageSrc = '';
+                          if (portfolio.featured_image) {
+                            if (portfolio.featured_image.startsWith('portfolio-image-')) {
+                              imageSrc = getPortfolioImageWithFallback(portfolio.featured_image, portfolio.category, portfolio.title);
                             } else {
-                              console.log('🖼️ [HOME] No image, using fallback for:', portfolio.title);
-                              imageSrc = getPortfolioImageWithFallback('', portfolio.category, portfolio.title);
+                              imageSrc = portfolio.featured_image;
                             }
-                            console.log('🖼️ [HOME] Final image src for', portfolio.title, ':', imageSrc.substring(0, 50) + '...');
-                            return imageSrc;
-                          })()}
+                          } else {
+                            imageSrc = getPortfolioImageWithFallback('', portfolio.category, portfolio.title);
+                          }
+                          return imageSrc;
+                        })()}
                           alt={portfolio.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           onError={(e) => {

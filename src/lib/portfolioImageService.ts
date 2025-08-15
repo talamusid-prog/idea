@@ -28,37 +28,57 @@ const initBroadcastChannel = () => {
 // Initialize on module load
 initBroadcastChannel();
 
+// Auto-fix missing images on module load (disabled to prevent overwriting real images)
+// if (typeof window !== 'undefined') {
+//   setTimeout(() => {
+//     fixMissingImages().then((fixedCount) => {
+//       if (fixedCount > 0) {
+//         console.log(`🔧 [IMAGE SERVICE] Auto-fixed ${fixedCount} missing images on load`);
+//       }
+//     });
+//   }, 2000); // Wait 2 seconds after page load
+// }
+
 // Fungsi untuk menyimpan gambar dengan sistem berbagi antar tab
 export const savePortfolioImage = async (file: File): Promise<string | null> => {
   try {
-    console.log('🖼️ [IMAGE SERVICE] Saving image to storage...', { fileName: file.name, fileSize: file.size });
-    
     // Convert file to base64
     const base64 = await convertFileToBase64(file);
-    console.log('🖼️ [IMAGE SERVICE] File converted to base64, length:', base64.length);
 
     // Generate unique key
     const timestamp = Date.now();
     const randomId = Math.random().toString(36).substring(2, 11);
     const imageKey = `portfolio-image-${timestamp}-${randomId}`;
+
+    // Save to localStorage and sessionStorage with retry mechanism
+    let localStorageSuccess = false;
+    let sessionStorageSuccess = false;
     
-    console.log('🖼️ [IMAGE SERVICE] Generated image key:', imageKey);
-
-    // Save to localStorage and sessionStorage
-    localStorage.setItem(imageKey, base64);
-    sessionStorage.setItem(imageKey, base64);
-
-    // Verify save
-    const savedImage = localStorage.getItem(imageKey);
-    if (savedImage) {
-      console.log('✅ [IMAGE SERVICE] Image saved successfully to storage');
-      
+    // Try localStorage first
+    try {
+      localStorage.setItem(imageKey, base64);
+      const verifyLocal = localStorage.getItem(imageKey);
+      localStorageSuccess = verifyLocal === base64;
+    } catch (localError) {
+      console.error('❌ [IMAGE SERVICE] localStorage save failed:', localError);
+    }
+    
+    // Try sessionStorage
+    try {
+      sessionStorage.setItem(imageKey, base64);
+      const verifySession = sessionStorage.getItem(imageKey);
+      sessionStorageSuccess = verifySession === base64;
+    } catch (sessionError) {
+      console.error('❌ [IMAGE SERVICE] sessionStorage save failed:', sessionError);
+    }
+    
+    if (localStorageSuccess || sessionStorageSuccess) {
       // Broadcast to other tabs
       broadcastImageToOtherTabs(imageKey, base64);
       
       return imageKey;
     } else {
-      console.error('❌ [IMAGE SERVICE] Failed to save image to storage');
+      console.error('❌ [IMAGE SERVICE] Failed to save image to any storage');
       return null;
     }
   } catch (error) {
@@ -70,24 +90,27 @@ export const savePortfolioImage = async (file: File): Promise<string | null> => 
 // Fungsi untuk mengambil gambar dari storage
 export const getPortfolioImage = (imageKey: string): string | null => {
   try {
-    console.log('🖼️ [IMAGE SERVICE] Getting image from storage:', imageKey);
-    
     // Try localStorage first
     let image = localStorage.getItem(imageKey);
     
     if (image) {
-      console.log('✅ [IMAGE SERVICE] Image found in localStorage');
-      return image;
+      // Check if it's a real image (base64) or placeholder
+      if (image.startsWith('data:image/')) {
+        return image;
+      }
     }
     
     // Try sessionStorage as fallback
     image = sessionStorage.getItem(imageKey);
     if (image) {
-      console.log('✅ [IMAGE SERVICE] Image found in sessionStorage');
-      return image;
+      // Check if it's a real image (base64) or placeholder
+      if (image.startsWith('data:image/')) {
+        return image;
+      } else {
+        return null; // Don't return placeholder, let fallback handle it
+      }
     }
     
-    console.log('❌ [IMAGE SERVICE] Image not found in storage');
     return null;
   } catch (error) {
     console.error('❌ [IMAGE SERVICE] Error getting image from storage:', error);
@@ -348,6 +371,226 @@ export const fixMissingImages = async () => {
   }
 };
 
+// Fungsi untuk membersihkan placeholder yang salah tersimpan
+export const cleanupPlaceholderImages = () => {
+  try {
+    console.log('🧹 [IMAGE SERVICE] Cleaning up placeholder images...');
+    
+    let cleanedCount = 0;
+    
+    // Clean localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('portfolio-image-')) {
+        const value = localStorage.getItem(key);
+        if (value && !value.startsWith('data:image/')) {
+          console.log(`🧹 [IMAGE SERVICE] Removing placeholder from localStorage: ${key}`);
+          console.log(`🧹 [IMAGE SERVICE] Placeholder value: ${value.substring(0, 50)}...`);
+          localStorage.removeItem(key);
+          cleanedCount++;
+        }
+      }
+    }
+    
+    // Clean sessionStorage
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key && key.startsWith('portfolio-image-')) {
+        const value = sessionStorage.getItem(key);
+        if (value && !value.startsWith('data:image/')) {
+          console.log(`🧹 [IMAGE SERVICE] Removing placeholder from sessionStorage: ${key}`);
+          console.log(`🧹 [IMAGE SERVICE] Placeholder value: ${value.substring(0, 50)}...`);
+          sessionStorage.removeItem(key);
+          cleanedCount++;
+        }
+      }
+    }
+    
+    console.log(`🧹 [IMAGE SERVICE] Cleaned ${cleanedCount} placeholder images`);
+    return cleanedCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error cleaning up placeholder images:', error);
+    return 0;
+  }
+};
+
+// Fungsi untuk memaksa reload semua gambar dari database
+export const forceReloadAllImages = async () => {
+  try {
+    console.log('🔄 [IMAGE SERVICE] Force reloading all images from database...');
+    
+    // Get all portfolios from database
+    const { data: portfolios, error } = await supabase
+      .from('portfolios')
+      .select('id, title, featured_image')
+      .not('featured_image', 'is', null);
+    
+    if (error) {
+      console.error('❌ [IMAGE SERVICE] Error fetching portfolios for reload:', error);
+      return 0;
+    }
+    
+    let reloadedCount = 0;
+    portfolios?.forEach(portfolio => {
+      if (portfolio.featured_image && portfolio.featured_image.startsWith('portfolio-image-')) {
+        // Remove the image from storage to force fallback
+        localStorage.removeItem(portfolio.featured_image);
+        sessionStorage.removeItem(portfolio.featured_image);
+        console.log(`🔄 [IMAGE SERVICE] Removed image from storage for: ${portfolio.title} (${portfolio.featured_image})`);
+        reloadedCount++;
+      }
+    });
+    
+    console.log(`🔄 [IMAGE SERVICE] Force reloaded ${reloadedCount} images`);
+    return reloadedCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error force reloading images:', error);
+    return 0;
+  }
+};
+
+// Fungsi untuk menyimpan ulang gambar yang ada di database ke storage
+export const restoreImagesFromDatabase = async () => {
+  try {
+    console.log('🔄 [IMAGE SERVICE] Restoring images from database...');
+    
+    // Get all portfolios from database
+    const { data: portfolios, error } = await supabase
+      .from('portfolios')
+      .select('id, title, featured_image, category')
+      .not('featured_image', 'is', null);
+    
+    if (error) {
+      console.error('❌ [IMAGE SERVICE] Error fetching portfolios for restore:', error);
+      return 0;
+    }
+    
+    let restoredCount = 0;
+    portfolios?.forEach(portfolio => {
+      if (portfolio.featured_image && portfolio.featured_image.startsWith('portfolio-image-')) {
+        // Check if image exists in storage
+        const existsInLocal = localStorage.getItem(portfolio.featured_image);
+        const existsInSession = sessionStorage.getItem(portfolio.featured_image);
+        
+        if (!existsInLocal && !existsInSession) {
+          // Try to get from other tabs or use placeholder
+          const placeholder = getPlaceholderImageByTitle(portfolio.title) || getPlaceholderImage(portfolio.category || 'default');
+          
+          // Save placeholder as the missing image temporarily
+          try {
+            localStorage.setItem(portfolio.featured_image, placeholder);
+            sessionStorage.setItem(portfolio.featured_image, placeholder);
+            console.log(`🔄 [IMAGE SERVICE] Restored image for: ${portfolio.title} (${portfolio.featured_image})`);
+            restoredCount++;
+          } catch (storageError) {
+            console.error(`❌ [IMAGE SERVICE] Failed to restore image for: ${portfolio.title}`, storageError);
+          }
+        }
+      }
+    });
+    
+    console.log(`🔄 [IMAGE SERVICE] Restored ${restoredCount} images from database`);
+    return restoredCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error restoring images from database:', error);
+    return 0;
+  }
+};
+
+// Fungsi untuk memperbaiki gambar yang hanya tersimpan di sessionStorage
+export const fixSessionStorageOnlyImages = () => {
+  try {
+    console.log('🔧 [IMAGE SERVICE] Fixing images that are only in sessionStorage...');
+    
+    let fixedCount = 0;
+    
+    // Get all sessionStorage keys
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key && key.startsWith('portfolio-image-')) {
+        const sessionData = sessionStorage.getItem(key);
+        const localData = localStorage.getItem(key);
+        
+        // If image exists in sessionStorage but not in localStorage
+        if (sessionData && !localData && sessionData.startsWith('data:image/')) {
+          try {
+            localStorage.setItem(key, sessionData);
+            console.log(`🔧 [IMAGE SERVICE] Fixed image: ${key} (copied from sessionStorage to localStorage)`);
+            fixedCount++;
+          } catch (error) {
+            console.error(`❌ [IMAGE SERVICE] Failed to copy image to localStorage: ${key}`, error);
+          }
+        }
+      }
+    }
+    
+    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} sessionStorage-only images`);
+    return fixedCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error fixing sessionStorage-only images:', error);
+    return 0;
+  }
+};
+
+// Fungsi untuk memperbaiki gambar yang salah tersimpan (placeholder di storage)
+export const fixCorruptedImages = async () => {
+  try {
+    console.log('🔧 [IMAGE SERVICE] Fixing corrupted images (placeholders in storage)...');
+    
+    // Get all portfolios from database
+    const { data: portfolios, error } = await supabase
+      .from('portfolios')
+      .select('id, title, featured_image, category')
+      .not('featured_image', 'is', null);
+    
+    if (error) {
+      console.error('❌ [IMAGE SERVICE] Error fetching portfolios for fix:', error);
+      return 0;
+    }
+    
+    let fixedCount = 0;
+    portfolios?.forEach(portfolio => {
+      if (portfolio.featured_image && portfolio.featured_image.startsWith('portfolio-image-')) {
+        const localData = localStorage.getItem(portfolio.featured_image);
+        const sessionData = sessionStorage.getItem(portfolio.featured_image);
+        
+        // Check if storage contains placeholder instead of base64
+        const isLocalCorrupted = localData && !localData.startsWith('data:image/');
+        const isSessionCorrupted = sessionData && !sessionData.startsWith('data:image/');
+        
+        if (isLocalCorrupted || isSessionCorrupted) {
+          console.log(`🔧 [IMAGE SERVICE] Found corrupted image for: ${portfolio.title}`);
+          console.log(`🔧 [IMAGE SERVICE] Local data: ${localData?.substring(0, 50)}...`);
+          console.log(`🔧 [IMAGE SERVICE] Session data: ${sessionData?.substring(0, 50)}...`);
+          
+          // Remove corrupted data
+          if (isLocalCorrupted) {
+            localStorage.removeItem(portfolio.featured_image);
+            console.log(`🔧 [IMAGE SERVICE] Removed corrupted data from localStorage: ${portfolio.featured_image}`);
+          }
+          if (isSessionCorrupted) {
+            sessionStorage.removeItem(portfolio.featured_image);
+            console.log(`🔧 [IMAGE SERVICE] Removed corrupted data from sessionStorage: ${portfolio.featured_image}`);
+          }
+          
+          fixedCount++;
+        }
+      }
+    });
+    
+    console.log(`🔧 [IMAGE SERVICE] Fixed ${fixedCount} corrupted images`);
+    return fixedCount;
+    
+  } catch (error) {
+    console.error('❌ [IMAGE SERVICE] Error fixing corrupted images:', error);
+    return 0;
+  }
+};
+
 // Fungsi untuk mendapatkan placeholder image berdasarkan kategori
 export const getPlaceholderImage = (category: string): string => {
   const categoryImages: Record<string, string> = {
@@ -374,31 +617,54 @@ export const getPlaceholderImageByTitle = (title: string): string => {
     'Healthcare': '/Healthcare.webp',
     'Mobile Banking App': '/ecommerce.jpg',
     'Company Profile Website': '/ecommerce.jpg',
-    'Task Management App': '/ecommerce.jpg'
+    'Task Management App': '/ecommerce.jpg',
+    'Warehouse Management System': '/ecommerce.jpg',
+    'warehouse-management-system': '/ecommerce.jpg',
+    'Warehouse Management': '/ecommerce.jpg',
+    'Management System': '/ecommerce.jpg',
+    'System Management': '/ecommerce.jpg'
   };
   
-  return titleImages[title] || '/placeholder.svg';
+  // Check exact match first
+  if (titleImages[title]) {
+    return titleImages[title];
+  }
+  
+  // Check partial matches for better fallback
+  const lowerTitle = title.toLowerCase();
+  if (lowerTitle.includes('warehouse') || lowerTitle.includes('management')) {
+    return '/ecommerce.jpg';
+  }
+  if (lowerTitle.includes('restaurant') || lowerTitle.includes('food')) {
+    return '/Food-Beverage.webp';
+  }
+  if (lowerTitle.includes('health') || lowerTitle.includes('care')) {
+    return '/Healthcare.webp';
+  }
+  if (lowerTitle.includes('education') || lowerTitle.includes('school')) {
+    return '/Education.jpg';
+  }
+  if (lowerTitle.includes('banking') || lowerTitle.includes('finance')) {
+    return '/ecommerce.jpg';
+  }
+  
+  return '/placeholder.svg';
 };
 
 // Fungsi untuk mendapatkan gambar dengan fallback yang lebih robust
 export const getPortfolioImageWithFallback = (imageKey: string, category: string = 'default', title: string = ''): string => {
-  console.log('🖼️ [IMAGE SERVICE] Getting image with fallback:', { imageKey, category, title });
-  
   // Try to get from storage first
   const storedImage = getPortfolioImage(imageKey);
   if (storedImage) {
-    console.log('✅ [IMAGE SERVICE] Using stored image');
     return storedImage;
   }
   
   // If not found in storage, return placeholder based on title first, then category
   if (title) {
     const placeholderByTitle = getPlaceholderImageByTitle(title);
-    console.log('🖼️ [IMAGE SERVICE] Using placeholder by title:', placeholderByTitle);
     return placeholderByTitle;
   }
   
   const placeholderByCategory = getPlaceholderImage(category);
-  console.log('🖼️ [IMAGE SERVICE] Using placeholder by category:', placeholderByCategory);
   return placeholderByCategory;
 };
