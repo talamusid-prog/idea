@@ -14,7 +14,7 @@ function getCurrentDate() {
 
 // Fungsi untuk generate sitemap XML
 function generateSitemap() {
-  const baseUrl = 'https://ideadigiralcreative.com';
+  const baseUrl = 'https://www.ideadigitalcreative.com';
   const currentDate = getCurrentDate();
   
   // Static pages
