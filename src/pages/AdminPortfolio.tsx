@@ -443,7 +443,7 @@ const AdminPortfolio = () => {
               <Card key={portfolio.id} className="group hover:shadow-lg transition-all duration-300">
                 <CardHeader className="pb-4">
                   {portfolio.featured_image ? (
-                    <div className="aspect-video overflow-hidden rounded-lg mb-4">
+                    <div className="aspect-[3/2] overflow-hidden rounded-lg mb-4">
                                                                      {(() => {
                           let imageSrc = '';
                           
@@ -468,7 +468,7 @@ const AdminPortfolio = () => {
                         })()}
                     </div>
                   ) : (
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center rounded-lg mb-4">
+                    <div className="aspect-[3/2] bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center rounded-lg mb-4">
                       <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
                         <Eye className="h-8 w-8 text-white" />
                       </div>

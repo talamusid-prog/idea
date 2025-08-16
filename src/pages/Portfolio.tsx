@@ -227,7 +227,7 @@ const Portfolio = () => {
               >
                 <CardHeader className="pb-4">
                   {/* Featured Image */}
-                  <div className="aspect-video overflow-hidden rounded-lg mb-4">
+                  <div className="aspect-[3/2] overflow-hidden rounded-lg mb-4">
                     <img
                       src={(() => {
                         if (portfolio.featured_image) {

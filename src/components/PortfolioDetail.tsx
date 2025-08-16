@@ -504,7 +504,7 @@ const PortfolioDetail = () => {
               {relatedPortfolios.map((relatedPortfolio) => (
                 <Card key={relatedPortfolio.id} className="group hover:shadow-lg transition-all duration-300 bg-white/80 backdrop-blur-sm border-white/20 cursor-pointer" onClick={() => navigate(`/portfolio/${relatedPortfolio.slug}`)}>
                   {/* Thumbnail for related portfolios */}
-                  <div className="aspect-video overflow-hidden relative">
+                  <div className="aspect-[3/2] overflow-hidden relative">
                     <img
                       src={(() => {
                         if (relatedPortfolio.featured_image) {

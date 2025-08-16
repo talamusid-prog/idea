@@ -201,7 +201,7 @@ const Portfolio = () => {
                 {filteredPortfolios.map((portfolio) => (
                   <div 
                     key={portfolio.id}
-                    className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 aspect-square max-w-sm mx-auto"
+                    className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 aspect-[3/1.9] max-w-sm mx-auto"
                     onMouseEnter={() => setHoveredProject(portfolio.id)}
                     onMouseLeave={() => setHoveredProject(null)}
                   >
