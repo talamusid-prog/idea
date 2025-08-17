@@ -349,12 +349,44 @@ const BlogDetail = () => {
         <meta property="og:site_name" content="Idea Digital Creative" />
         <meta property="og:locale" content="id_ID" />
         
-        {/* Open Graph Image */}
-        <meta property="og:image" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
+        {/* Open Graph Image - Perbaikan untuk WhatsApp */}
+        <meta property="og:image" content={(() => {
+          if (post.featured_image) {
+            // Jika featured_image adalah URL lengkap
+            if (post.featured_image.startsWith('http')) {
+              console.log('🔗 [BlogDetail] OG Image - URL lengkap:', post.featured_image);
+              return post.featured_image;
+            }
+            // Jika featured_image adalah base64 data URL
+            if (post.featured_image.startsWith('data:image/')) {
+              console.log('🔗 [BlogDetail] OG Image - Base64 data URL:', post.featured_image.substring(0, 50) + '...');
+              return post.featured_image;
+            }
+            // Jika featured_image adalah path relatif, buat URL lengkap
+            const fullUrl = `https://ideadigiralcreative.com${post.featured_image.startsWith('/') ? '' : '/'}${post.featured_image}`;
+            console.log('🔗 [BlogDetail] OG Image - Path relatif, dibuat URL lengkap:', fullUrl);
+            return fullUrl;
+          }
+          // Fallback ke logo website
+          console.log('🔗 [BlogDetail] OG Image - Fallback ke logo');
+          return 'https://ideadigiralcreative.com/logo.png';
+        })()} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={post.title} />
         <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:secure_url" content={(() => {
+          if (post.featured_image) {
+            if (post.featured_image.startsWith('http')) {
+              return post.featured_image;
+            }
+            if (post.featured_image.startsWith('data:image/')) {
+              return post.featured_image;
+            }
+            return `https://ideadigiralcreative.com${post.featured_image.startsWith('/') ? '' : '/'}${post.featured_image}`;
+          }
+          return 'https://ideadigiralcreative.com/logo.png';
+        })()} />
         
         {/* Article Specific Meta Tags */}
         <meta property="article:published_time" content={post.published_at} />
@@ -368,7 +400,18 @@ const BlogDetail = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt} />
-        <meta name="twitter:image" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
+        <meta name="twitter:image" content={(() => {
+          if (post.featured_image) {
+            if (post.featured_image.startsWith('http')) {
+              return post.featured_image;
+            }
+            if (post.featured_image.startsWith('data:image/')) {
+              return post.featured_image;
+            }
+            return `https://ideadigiralcreative.com${post.featured_image.startsWith('/') ? '' : '/'}${post.featured_image}`;
+          }
+          return 'https://ideadigiralcreative.com/logo.png';
+        })()} />
         <meta name="twitter:site" content="@ideadigitalcreative" />
         <meta name="twitter:creator" content="@ideadigitalcreative" />
         
@@ -378,9 +421,38 @@ const BlogDetail = () => {
         <meta name="keywords" content={post.tags ? post.tags.join(', ') : 'blog, artikel, website'} />
         <link rel="canonical" href={`https://ideadigiralcreative.com/blog/${post.slug}`} />
         
-        {/* Additional Open Graph Tags */}
+        {/* Additional Open Graph Tags untuk WhatsApp */}
         <meta property="og:determiner" content="the" />
-        <meta property="og:image:secure_url" content={post.featured_image || 'https://ideadigiralcreative.com/public/logo.png'} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={post.title} />
+        <meta property="og:image:type" content="image/jpeg" />
+        
+        {/* WhatsApp specific meta tags */}
+        <meta property="og:image:secure_url" content={(() => {
+          if (post.featured_image) {
+            if (post.featured_image.startsWith('http')) {
+              return post.featured_image;
+            }
+            if (post.featured_image.startsWith('data:image/')) {
+              return post.featured_image;
+            }
+            return `https://ideadigiralcreative.com${post.featured_image.startsWith('/') ? '' : '/'}${post.featured_image}`;
+          }
+          return 'https://ideadigiralcreative.com/logo.png';
+        })()} />
+        
+        {/* Additional meta tags untuk WhatsApp dan social media */}
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="msapplication-TileColor" content="#3b82f6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Idea Digital Creative" />
+        
+        {/* Cache control untuk social media crawlers */}
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
       </Helmet>
       <Header onLogoClick={() => navigate('/')} />
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
