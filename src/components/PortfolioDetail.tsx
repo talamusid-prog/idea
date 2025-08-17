@@ -127,6 +127,12 @@ const PortfolioDetail = () => {
     });
   };
 
+  // Fungsi untuk membersihkan HTML tags dari deskripsi
+  const stripHtmlTags = (html: string) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-muted">
@@ -563,7 +569,7 @@ const PortfolioDetail = () => {
                                 {featuredPortfolio.title}
                               </h4>
                               <p className="text-xs text-muted-foreground line-clamp-1">
-                                {featuredPortfolio.description}
+                                {stripHtmlTags(featuredPortfolio.description)}
                               </p>
                             </div>
                           </div>
@@ -620,7 +626,7 @@ const PortfolioDetail = () => {
                       {relatedPortfolio.title}
                     </h3>
                     <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
-                      {relatedPortfolio.description}
+                      {stripHtmlTags(relatedPortfolio.description)}
                     </p>
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span className="flex items-center gap-1 max-w-[100px]">
