@@ -13,6 +13,7 @@ export interface BlogPost {
   excerpt: string
   slug: string
   featured_image?: string
+  alt_text?: string
   author: string
   published_at: string
   created_at: string
@@ -28,6 +29,7 @@ export interface CreateBlogPost {
   excerpt: string
   slug: string
   featured_image?: string
+  alt_text?: string
   author: string
   tags?: string[]
   status: 'draft' | 'published'

@@ -38,6 +38,7 @@ const CreateArticle = () => {
     content: "",
     tags: [] as string[],
     featured_image: "",
+    alt_text: "",
     status: "draft" as "draft" | "published"
   });
   
@@ -211,6 +212,7 @@ const CreateArticle = () => {
         content: formData.content.trim(),
         tags: formData.tags,
         featured_image: formData.featured_image || "",
+        alt_text: formData.alt_text.trim(),
         status: formData.status,
         author: "Admin" // Default author
       });
@@ -546,6 +548,24 @@ const CreateArticle = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
+                    
+                    {/* Alt Text Input */}
+                    <div>
+                      <Label htmlFor="alt_text" className="text-sm font-medium mb-2 block">
+                        Alt Text (Deskripsi Gambar)
+                      </Label>
+                      <Input
+                        id="alt_text"
+                        placeholder="Masukkan deskripsi gambar untuk aksesibilitas..."
+                        value={formData.alt_text}
+                        onChange={(e) => setFormData(prev => ({ ...prev, alt_text: e.target.value }))}
+                        className="w-full"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Alt text membantu pengguna dengan screen reader dan SEO
+                      </p>
+                    </div>
+                    
                     <Button
                       variant="outline"
                       size="sm"

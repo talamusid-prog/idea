@@ -218,6 +218,7 @@ export const createPostWithSlug = async (post: Omit<CreateBlogPost, 'slug'>): Pr
       excerpt: post.excerpt?.trim() || '',
       slug,
       featured_image: post.featured_image || '',
+      alt_text: post.alt_text?.trim() || '',
       author: post.author.trim(),
       tags: post.tags || [],
       status: post.status || 'draft',
