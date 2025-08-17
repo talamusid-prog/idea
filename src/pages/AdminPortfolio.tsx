@@ -28,6 +28,8 @@ import { savePortfolioImage, getPortfolioImage, savePortfolioImageToPublic } fro
 import { Portfolio, CreatePortfolio } from "@/lib/supabase";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError, showWarning, showConfirm } from "@/lib/sweetAlert";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AdminPortfolio = () => {
   const navigate = useNavigate();
@@ -393,6 +395,12 @@ const AdminPortfolio = () => {
     });
   };
 
+  // Fungsi untuk membersihkan HTML tags dari deskripsi
+  const stripHtmlTags = (html: string) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-muted p-8">
@@ -497,7 +505,7 @@ const AdminPortfolio = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
-                  {portfolio.description}
+                  {stripHtmlTags(portfolio.description)}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -591,14 +599,124 @@ const AdminPortfolio = () => {
 
                   <div>
                     <Label htmlFor="description">Deskripsi *</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                      placeholder="Deskripsi proyek"
-                      rows={4}
-                      required
-                    />
+                    <div className="ckeditor-wrapper">
+                      <style>
+                        {`
+                          .ckeditor-wrapper .ck-editor__editable {
+                            min-height: 200px;
+                            max-height: 400px;
+                            overflow-y: auto;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ol {
+                            list-style: none;
+                            counter-reset: item;
+                            padding-left: 0;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ol li {
+                            counter-increment: item;
+                            margin-bottom: 0.5rem;
+                            position: relative;
+                            padding-left: 2rem;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ol li::before {
+                            content: counter(item) ". ";
+                            position: absolute;
+                            left: 0;
+                            font-weight: bold;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ul {
+                            list-style: none;
+                            padding-left: 0;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ul li {
+                            margin-bottom: 0.5rem;
+                            position: relative;
+                            padding-left: 2rem;
+                          }
+                          .ckeditor-wrapper .ck-editor__editable ul li::before {
+                            content: "• ";
+                            position: absolute;
+                            left: 0;
+                            font-weight: bold;
+                          }
+                        `}
+                      </style>
+                      <CKEditor
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        editor={ClassicEditor as any}
+                        data={formData.description}
+                        config={{
+                          toolbar: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'strikethrough',
+                            '|',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'blockQuote',
+                            'link',
+                            '|',
+                            'undo',
+                            'redo',
+                            '|',
+                            'pasteFromWord'
+                          ],
+                          heading: {
+                            options: [
+                              { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                              { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                              { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                              { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                            ]
+                          },
+                          removePlugins: ['PasteFromOfficeEnhanced']
+                        }}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onReady={(editor: any) => {
+                          console.log('Editor is ready to use!', editor);
+                          
+                          // Tambahkan event listener untuk membersihkan paste dari Word
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          editor.editing.view.document.on('paste', (evt: any, data: any) => {
+                            if (data.dataTransfer.getData('text/html')) {
+                              const html = data.dataTransfer.getData('text/html');
+                              const cleanHtml = html
+                                .replace(/<o:p[^>]*>/g, '')
+                                .replace(/<\/o:p>/g, '')
+                                .replace(/<w:WordDocument[^>]*>.*?<\/w:WordDocument>/gs, '')
+                                .replace(/style="[^"]*"/g, '')
+                                .replace(/class="[^"]*"/g, '')
+                                .replace(/<span[^>]*>/g, '')
+                                .replace(/<\/span>/g, '')
+                                .replace(/<div[^>]*>/g, '<p>')
+                                .replace(/<\/div>/g, '</p>');
+                              
+                              data.dataTransfer.setData('text/html', cleanHtml);
+                            }
+                          });
+                        }}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onChange={(event: any, editor: any) => {
+                          const data = editor.getData();
+                          setFormData(prev => ({ 
+                            ...prev, 
+                            description: data
+                          }));
+                        }}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onBlur={(event: any, editor: any) => {
+                          console.log('Blur.', editor);
+                        }}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onFocus={(event: any, editor: any) => {
+                          console.log('Focus.', editor);
+                        }}
+                      />
+                    </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">

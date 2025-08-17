@@ -11,8 +11,6 @@ import {
   Filter, 
   Star,
   Eye,
-  ExternalLink,
-  Github,
   Calendar,
   User,
   Tag
@@ -31,6 +29,12 @@ const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [categories, setCategories] = useState<string[]>([]);
+
+  // Fungsi untuk membersihkan HTML tags dari deskripsi
+  const stripHtmlTags = (html: string) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '');
+  };
 
   // Fungsi untuk mengambil gambar dari storage
   const getImageFromLocal = (imageKey: string): string | null => {
@@ -271,7 +275,7 @@ const Portfolio = () => {
                 <CardContent className="pt-0">
                   {/* Description */}
                   <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
-                    {portfolio.description}
+                    {stripHtmlTags(portfolio.description)}
                   </p>
 
                   {/* Category */}
@@ -297,36 +301,7 @@ const Portfolio = () => {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-2">
-                    {portfolio.project_url && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open(portfolio.project_url, '_blank');
-                        }}
-                        className="flex items-center gap-1"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        Demo
-                      </Button>
-                    )}
-                    {portfolio.github_url && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open(portfolio.github_url, '_blank');
-                        }}
-                        className="flex items-center gap-1"
-                      >
-                        <Github className="h-3 w-3" />
-                        Code
-                      </Button>
-                    )}
-                  </div>
+                  {/* Tombol Demo dan Code dihapus */}
                 </CardContent>
               </Card>
             ))}

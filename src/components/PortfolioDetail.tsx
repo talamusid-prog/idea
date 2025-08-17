@@ -372,9 +372,102 @@ const PortfolioDetail = () => {
 
                 {/* Description */}
                 <div className="prose prose-lg max-w-none mb-8">
-                  <p className="text-gray-800 leading-relaxed">
-                    {portfolio.description}
-                  </p>
+                  {/* Render HTML content safely */}
+                  <div 
+                    dangerouslySetInnerHTML={{ __html: portfolio.description }}
+                    className="text-gray-800 leading-relaxed portfolio-description"
+                  />
+                  <style>
+                    {`
+                      .portfolio-description h1 {
+                        font-size: 1.875rem;
+                        font-weight: 700;
+                        margin-top: 2rem;
+                        margin-bottom: 1rem;
+                        color: #1f2937;
+                      }
+                      .portfolio-description h2 {
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        margin-top: 1.5rem;
+                        margin-bottom: 0.75rem;
+                        color: #1f2937;
+                      }
+                      .portfolio-description h3 {
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                        margin-top: 1.25rem;
+                        margin-bottom: 0.5rem;
+                        color: #1f2937;
+                      }
+                      .portfolio-description p {
+                        margin-bottom: 1rem;
+                        line-height: 1.75;
+                      }
+                      .portfolio-description ol {
+                        list-style: none;
+                        counter-reset: item;
+                        padding-left: 0;
+                        margin-bottom: 1rem;
+                      }
+                      .portfolio-description ol li {
+                        counter-increment: item;
+                        margin-bottom: 0.5rem;
+                        position: relative;
+                        padding-left: 2rem;
+                        line-height: 1.6;
+                      }
+                      .portfolio-description ol li::before {
+                        content: counter(item) ". ";
+                        position: absolute;
+                        left: 0;
+                        font-weight: 600;
+                        color: #3b82f6;
+                      }
+                      .portfolio-description ul {
+                        list-style: none;
+                        padding-left: 0;
+                        margin-bottom: 1rem;
+                      }
+                      .portfolio-description ul li {
+                        margin-bottom: 0.5rem;
+                        position: relative;
+                        padding-left: 2rem;
+                        line-height: 1.6;
+                      }
+                      .portfolio-description ul li::before {
+                        content: "• ";
+                        position: absolute;
+                        left: 0;
+                        font-weight: 600;
+                        color: #3b82f6;
+                      }
+                      .portfolio-description strong {
+                        font-weight: 600;
+                        color: #1f2937;
+                      }
+                      .portfolio-description em {
+                        font-style: italic;
+                        color: #4b5563;
+                      }
+                      .portfolio-description blockquote {
+                        border-left: 4px solid #3b82f6;
+                        padding-left: 1rem;
+                        margin: 1.5rem 0;
+                        font-style: italic;
+                        color: #6b7280;
+                      }
+                      .portfolio-description a {
+                        color: #3b82f6;
+                        text-decoration: underline;
+                        text-decoration-color: #dbeafe;
+                      }
+                      .portfolio-description a:hover {
+                        color: #2563eb;
+                        text-decoration-color: #3b82f6;
+                      }
+                    `}
+                  </style>
                 </div>
 
                 {/* Technologies */}
@@ -403,7 +496,7 @@ const PortfolioDetail = () => {
                       className="flex items-center gap-2"
                     >
                       <ExternalLink className="h-4 w-4" />
-                      Lihat Proyek
+                      Demo
                     </Button>
                   )}
                   {portfolio.github_url && (
@@ -413,7 +506,7 @@ const PortfolioDetail = () => {
                       className="flex items-center gap-2"
                     >
                       <Github className="h-4 w-4" />
-                      Lihat Kode
+                      Code
                     </Button>
                   )}
                 </div>
