@@ -128,7 +128,9 @@ const Pricing = () => {
                   {pkg.name}
                 </CardTitle>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-primary">Rp {pkg.price}</span>
+                  <span className="text-4xl font-bold text-primary">
+                    {pkg.name === "Pro" ? pkg.price : `Rp ${pkg.price}`}
+                  </span>
                 </div>
                 <p className="text-muted-foreground">{pkg.description}</p>
               </CardHeader>
