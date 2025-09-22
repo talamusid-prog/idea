@@ -67,16 +67,16 @@ const Pricing = () => {
     },
     {
       name: "Pro",
-      price: "8 Juta",
+      price: "Konsultasi",
       popular: false,
       description: "Solusi lengkap untuk bisnis besar",
       features: [
         "Unlimited Halaman",
         "Domain .com Gratis 1 Tahun",
-        "Hosting 10 GB",
+        "Hosting 30 GB",
         "SSL Certificate",
         "Responsive Design",
-        "SEO Premium",
+        "SEO Advance",
         "E-commerce Ready",
         "Payment Gateway",
         "Admin Panel",
@@ -128,7 +128,9 @@ const Pricing = () => {
                   {pkg.name}
                 </CardTitle>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-primary">Rp {pkg.price}</span>
+                  <span className="text-4xl font-bold text-primary">
+                    {pkg.name === "Pro" ? pkg.price : `Rp ${pkg.price}`}
+                  </span>
                 </div>
                 <p className="text-muted-foreground">{pkg.description}</p>
               </CardHeader>
