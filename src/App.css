@@ -1,0 +1,112 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Rich Text Editor Styles */
+[contenteditable="true"] {
+  outline: none;
+  min-height: 400px;
+  line-height: 1.6;
+}
+
+[contenteditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+[contenteditable="true"] h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+[contenteditable="true"] h2 {
+  @apply text-2xl font-bold mb-3;
+}
+
+[contenteditable="true"] h3 {
+  @apply text-xl font-bold mb-2;
+}
+
+[contenteditable="true"] p {
+  @apply mb-4;
+}
+
+[contenteditable="true"] ul {
+  @apply list-disc list-inside mb-4;
+}
+
+[contenteditable="true"] ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+[contenteditable="true"] blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-4;
+}
+
+[contenteditable="true"] a {
+  @apply text-blue-600 underline;
+}
+
+[contenteditable="true"] strong {
+  @apply font-bold;
+}
+
+[contenteditable="true"] em {
+  @apply italic;
+}
+
+[contenteditable="true"] u {
+  @apply underline;
+}
+
+/* Editor Toolbar Styles */
+.editor-toolbar button {
+  @apply transition-colors duration-200;
+}
+
+.editor-toolbar button:hover {
+  @apply bg-gray-100;
+}
+
+.editor-toolbar button.active {
+  @apply bg-blue-100 text-blue-700;
+}

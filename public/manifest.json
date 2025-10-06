@@ -1,0 +1,21 @@
+{
+  "name": "Ideadigiralcreative - Jasa Pembuatan Website Profesional",
+  "short_name": "Ideadigiralcreative",
+  "description": "Jasa pembuatan website profesional dan modern. Desain responsif, harga terjangkau, proses cepat.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EC652A",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": []
+}
