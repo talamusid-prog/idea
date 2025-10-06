@@ -22,7 +22,7 @@ const Testimonials = () => {
       text: "Website toko online yang dibuat sangat professional dan user-friendly. Penjualan saya meningkat 300% setelah menggunakan website dari Ideadigiralcreative!"
     },
     {
-      name: "Sarah Wijaya",
+      name: "Dr. Sarah Wijaya",
       position: "Dokter Klinik Kesehatan",
       icon: User,
       rating: 5,
