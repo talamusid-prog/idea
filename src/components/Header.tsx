@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
   onLogoClick?: () => void;
@@ -11,6 +13,7 @@ const Header = ({ onLogoClick }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   // Fungsi untuk membuka WhatsApp dengan format nomor yang benar
   const handleWhatsAppClick = () => {
@@ -42,12 +45,12 @@ const Header = ({ onLogoClick }: HeaderProps) => {
   };
 
   const menuItems = [
-    { label: "Home", href: "/", isAnchor: false },
-    { label: "Paket Harga", href: "#pricing", isAnchor: true },
-    { label: "Portofolio", href: "/portfolio", isAnchor: false },
-    { label: "Cara Kerja", href: "#process", isAnchor: true },
-    { label: "FAQ", href: "#faq", isAnchor: true },
-    { label: "Blog", href: "/blog", isAnchor: false },
+    { label: t('nav.home'), href: "/", isAnchor: false },
+    { label: t('pricing.title'), href: "#pricing", isAnchor: true },
+    { label: t('nav.portfolio'), href: "/portfolio", isAnchor: false },
+    { label: t('process.title'), href: "#process", isAnchor: true },
+    { label: t('faq.badge'), href: "#faq", isAnchor: true },
+    { label: t('nav.blog'), href: "/blog", isAnchor: false },
   ];
 
   return (
@@ -80,13 +83,14 @@ const Header = ({ onLogoClick }: HeaderProps) => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center">
+          {/* Language Switcher & CTA Button */}
+          <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
             <Button 
               className="gradient-primary text-white hover:shadow-glow transition-smooth"
               onClick={handleWhatsAppClick}
             >
-              Konsultasi Gratis
+              {t('common.contactUs')}
             </Button>
           </div>
 
@@ -112,15 +116,18 @@ const Header = ({ onLogoClick }: HeaderProps) => {
                   {item.label}
                 </button>
               ))}
-              <Button 
-                className="gradient-primary text-white mt-2"
-                onClick={() => {
-                  handleWhatsAppClick();
-                  setIsMenuOpen(false);
-                }}
-              >
-                Konsultasi Gratis
-              </Button>
+              <div className="flex items-center justify-between mt-4">
+                <LanguageSwitcher />
+                <Button 
+                  className="gradient-primary text-white"
+                  onClick={() => {
+                    handleWhatsAppClick();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  {t('common.contactUs')}
+                </Button>
+              </div>
             </nav>
           </div>
         )}

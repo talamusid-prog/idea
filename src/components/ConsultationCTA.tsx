@@ -1,9 +1,12 @@
 import { MessageCircle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ConsultationCTA = () => {
+  const { t } = useLanguage();
+  
   const handleWhatsAppClick = () => {
     const phoneNumber = "6285242766676";
-    const message = "Halo! Saya tertarik dengan jasa pembuatan website Anda. Bisa konsultasi lebih lanjut?";
+    const message = t('consultation.whatsappMessage');
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -24,12 +27,12 @@ const ConsultationCTA = () => {
             {/* Middle Section - Text Content */}
             <div className="flex-1 text-center lg:text-left">
               <h3 className="text-lg lg:text-xl font-bold text-white mb-2">
-                Butuh Konsultasi{" "}
-                <span className="text-green-400">Jenis Website lainnya</span>{" "}
-                yang ingin dibuat?
+                {t('consultation.title')}{" "}
+                <span className="text-green-400">{t('consultation.highlight')}</span>{" "}
+                {t('consultation.titleEnd')}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Langsung diskusikan bersama tim ahli kami untuk menggali kebutuhanmu dan mengetahui informasi lainnya lebih lanjut
+                {t('consultation.description')}
               </p>
             </div>
 
@@ -39,7 +42,7 @@ const ConsultationCTA = () => {
                 onClick={handleWhatsAppClick}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded-full text-sm transition-colors duration-300 whitespace-nowrap"
               >
-                Konsultasi Sekarang
+                {t('consultation.button')}
               </button>
             </div>
           </div>

@@ -1,41 +1,44 @@
 import { Building2, Store, Monitor, FileText, GraduationCap, Award, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WebsiteTypes = () => {
+  const { t } = useLanguage();
+  
   const websiteTypes = [
     {
       icon: Building2,
-      title: "Website Profil Perusahaan",
-      description: "Buat website profil perusahaan yang profesional untuk meningkatkan kredibilitas bisnismu.",
+      title: t('websiteTypes.corporate.title'),
+      description: t('websiteTypes.corporate.description'),
       iconColor: "text-orange-500"
     },
     {
       icon: Store,
-      title: "Website Toko Online",
-      description: "Website dengan berbagai fitur menarik dan mudah digunakan untuk meningkatkan penjualanmu.",
+      title: t('websiteTypes.ecommerce.title'),
+      description: t('websiteTypes.ecommerce.description'),
       iconColor: "text-orange-500"
     },
     {
       icon: Monitor,
-      title: "Website Aplikasi",
-      description: "Kembangkan website aplikasi yang fungsional dan user-friendly untuk kebutuhan bisnismu.",
+      title: t('websiteTypes.application.title'),
+      description: t('websiteTypes.application.description'),
       iconColor: "text-orange-500"
     },
          {
        icon: FileText,
-       title: "Web Berita",
-       description: "Buat website berita yang informatif dan terpercaya untuk menyampaikan informasi terkini kepada pembaca.",
+       title: t('websiteTypes.news.title'),
+       description: t('websiteTypes.news.description'),
        iconColor: "text-orange-500"
      },
     {
       icon: GraduationCap,
-      title: "E-Course",
-      description: "Buat platform yang interaktif untuk membagikan pengetahuan dan kursus online.",
+      title: t('websiteTypes.ecourse.title'),
+      description: t('websiteTypes.ecourse.description'),
       iconColor: "text-orange-500"
     },
          {
        icon: Award,
-       title: "Web Donasi",
-       description: "Buat website donasi yang aman dan terpercaya untuk mengumpulkan dana dari berbagai donatur.",
+       title: t('websiteTypes.donation.title'),
+       description: t('websiteTypes.donation.description'),
        iconColor: "text-orange-500"
      }
   ];

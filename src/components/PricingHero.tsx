@@ -1,29 +1,33 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const PricingHero = () => {
+  const { t } = useLanguage();
+  
   const features = [
     {
       iconSrc: "/Premium-Legal.png",
-      title: "Premium Legal",
-      description: "Themes & Plugin"
+      title: t('pricing.features.premium.title'),
+      description: t('pricing.features.premium.desc')
     },
     {
       iconSrc: "/SEO-Basic.png",
-      title: "SEO Basic",
-      description: "Teroptimasi"
+      title: t('pricing.features.seo.title'),
+      description: t('pricing.features.seo.desc')
     },
     {
       iconSrc: "/Training.png",
-      title: "Training",
-      description: "Penggunaan Web"
+      title: t('pricing.features.training.title'),
+      description: t('pricing.features.training.desc')
     },
     {
       iconSrc: "/Tampilan-Responsif.png",
-      title: "Tampilan Responsif",
-      description: "Menyesuaikan di Device Apapun"
+      title: t('pricing.features.responsive.title'),
+      description: t('pricing.features.responsive.desc')
     },
     {
       iconSrc: "/Support.png",
-      title: "Support + Maintenance",
-      description: "1 Tahun (Tergantung Paket yang Dipilih)"
+      title: t('pricing.features.support.title'),
+      description: t('pricing.features.support.desc')
     }
   ];
 
@@ -42,10 +46,10 @@ const PricingHero = () => {
         {/* Top Section - Orange Background */}
         <div className="text-center mb-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-            Hanya Hari Ini, Kesempatan Buat Website Murah, Mudah, Cepat dan Keren
+            {t('pricing.hero.title')}
           </h2>
           <p className="text-white text-lg">
-            Paket Lengkap Bikin Website Jasa Dalam Sekejap
+            {t('pricing.hero.subtitle')}
           </p>
         </div>
 
@@ -68,20 +72,20 @@ const PricingHero = () => {
 
                {/* Service Title */}
                <h3 className="text-3xl font-bold text-gray-700 mb-2">
-                 Jasa Pembuatan Website
+                 {t('pricing.hero.serviceTitle')}
                </h3>
 
                {/* Starting Price */}
-               <p className="text-gray-600 mb-2">Mulai Dari</p>
+               <p className="text-gray-600 mb-2">{t('pricing.hero.startingFrom')}</p>
 
                {/* Price */}
                <div className="text-4xl lg:text-5xl font-bold text-gray-700 mb-8">
-                 Rp. 2,5 Juta
+                 {t('pricing.hero.price')}
                </div>
 
                {/* CTA Button */}
                <button className="w-full lg:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full text-base transition-colors duration-300">
-                 Buat Website Sekarang
+                 {t('pricing.hero.cta')}
                </button>
              </div>
 

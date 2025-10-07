@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Star, DollarSign } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Pricing = () => {
+  const { t } = useLanguage();
+  
   // Fungsi untuk mengirim pesan ke WhatsApp dengan template berdasarkan paket
   const handleWhatsAppClick = (packageName: string, price: string) => {
     // ⚠️ PENTING: Ganti nomor WhatsApp di bawah ini dengan nomor WhatsApp Anda
@@ -93,14 +96,13 @@ const Pricing = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <DollarSign className="w-4 h-4" />
-            Paket Harga
+            {t('pricing.title')}
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4">
-            Paket Harga Terjangkau
+            {t('pricing.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Pilih paket yang sesuai dengan kebutuhan bisnis Anda. 
-            Semua paket sudah termasuk garansi dan support
+            {t('pricing.subtitle')}
           </p>
         </div>
 
@@ -118,7 +120,7 @@ const Pricing = () => {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="gradient-primary text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1">
                     <Star className="w-4 h-4 fill-current" />
-                    Paling Populer
+                    {t('pricing.popular')}
                   </div>
                 </div>
               )}
@@ -157,7 +159,7 @@ const Pricing = () => {
                   size="lg"
                   onClick={() => handleWhatsAppClick(pkg.name, pkg.price)}
                 >
-                  Pilih Paket {pkg.name}
+                  {t('pricing.choose')} {pkg.name}
                 </Button>
               </CardContent>
             </Card>

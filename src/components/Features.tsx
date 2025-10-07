@@ -1,29 +1,32 @@
 import { Rocket, Wallet, Smartphone, Headphones, Star } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Features = () => {
+  const { t } = useLanguage();
+  
   const features = [
     {
       icon: Rocket,
-      title: "Proses Cepat",
-      description: "Website online dalam hitungan hari",
+      title: t('features.fast.title'),
+      description: t('features.fast.desc'),
       color: "text-primary"
     },
     {
       icon: Wallet,
-      title: "Harga Terjangkau",
-      description: "Paket fleksibel sesuai kebutuhan Anda",
+      title: t('features.seo.title'),
+      description: t('features.seo.desc'),
       color: "text-accent"
     },
     {
       icon: Smartphone,
-      title: "Desain Responsif",
-      description: "Tampilan sempurna di semua perangkat",
+      title: t('features.responsive.title'),
+      description: t('features.responsive.desc'),
       color: "text-success"
     },
     {
       icon: Headphones,
-      title: "Dukungan Penuh",
-      description: "Bantuan teknis kapan pun dibutuhkan",
+      title: t('features.support.title'),
+      description: t('features.support.desc'),
       color: "text-warning"
     }
   ];
@@ -34,14 +37,13 @@ const Features = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <Star className="w-4 h-4" />
-            Fitur Unggulan
+            {t('features.title')}
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4">
-            Kenapa Memilih Kami?
+            {t('features.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Kami memberikan layanan terbaik dengan standar profesional untuk 
-            mewujudkan website impian Anda
+            {t('features.subtitle')}
           </p>
         </div>
 

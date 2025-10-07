@@ -1,22 +1,25 @@
 import { Check } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WhyWebsite = () => {
+  const { t } = useLanguage();
+  
   const reasons = [
     {
-      text: "Jutaan orang melakukan pencarian di Google sebelum membeli sesuatu, ",
-      highlight: "termasuk bisnismu"
+      text: t('whyWebsite.reasons.search.text'),
+      highlight: t('whyWebsite.reasons.search.highlight')
     },
     {
-      text: "Bisnis yang punya website ",
-      highlight: "lebih dipercaya"
+      text: t('whyWebsite.reasons.trust.text'),
+      highlight: t('whyWebsite.reasons.trust.highlight')
     },
     {
-      text: "1 dari 3 pebisnis saat ini sudah menggunakan ",
-      highlight: "website untuk jualan"
+      text: t('whyWebsite.reasons.business.text'),
+      highlight: t('whyWebsite.reasons.business.highlight')
     },
     {
-      text: "Ampuh sebagai ",
-      highlight: "media promosi"
+      text: t('whyWebsite.reasons.promotion.text'),
+      highlight: t('whyWebsite.reasons.promotion.highlight')
     }
   ];
 
@@ -28,9 +31,9 @@ const WhyWebsite = () => {
           {/* Left Side - Text Content */}
           <div className="text-gray-800 order-2 lg:order-1">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 lg:mb-8">
-              Inilah Mengapa Kamu Harus{" "}
-              <span className="text-orange-500">Bikin Website</span>{" "}
-              Sekarang Juga
+              {t('whyWebsite.title')}{" "}
+              <span className="text-orange-500">{t('whyWebsite.highlight')}</span>{" "}
+              {t('whyWebsite.titleEnd')}
             </h2>
             
             <div className="space-y-3 lg:space-y-4">
@@ -44,10 +47,10 @@ const WhyWebsite = () => {
                     <span className="text-orange-500 font-semibold">
                       {reason.highlight}
                     </span>
-                    {index === 0 && " daripada yang tidak"}
-                    {index === 1 && " daripada yang tidak"}
-                    {index === 2 && ""}
-                    {index === 3 && " dan ekspansi pasar untuk bisnismu"}
+                    {index === 0 && ` ${t('whyWebsite.reasons.search.suffix')}`}
+                    {index === 1 && ` ${t('whyWebsite.reasons.trust.suffix')}`}
+                    {index === 2 && ` ${t('whyWebsite.reasons.business.suffix')}`}
+                    {index === 3 && ` ${t('whyWebsite.reasons.promotion.suffix')}`}
                   </p>
                 </div>
               ))}

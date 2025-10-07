@@ -17,9 +17,11 @@ import './Blog.css';
 
 import { getPublishedPosts } from "@/lib/blogService";
 import { BlogPost } from "@/lib/supabase";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Blog = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const swiperRef = useRef<SwiperType>();
@@ -50,14 +52,13 @@ const Blog = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <BookOpen className="w-4 h-4" />
-            Blog & Artikel
+            {t('blog.badge')}
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4">
-            Blog & Artikel
+            {t('blog.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Temukan tips, tutorial, dan insight terbaru seputar web development, 
-            desain, dan teknologi digital untuk mengembangkan bisnis Anda.
+            {t('blog.subtitle')}
           </p>
         </div>
 
@@ -67,7 +68,7 @@ const Blog = () => {
         {loading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-muted-foreground">Memuat artikel...</p>
+            <p className="mt-4 text-muted-foreground">{t('blog.loading')}</p>
           </div>
         )}
 
@@ -77,7 +78,7 @@ const Blog = () => {
             {posts.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground text-lg">
-                  Belum ada artikel yang dipublikasikan.
+                  {t('blog.empty')}
                 </p>
               </div>
             ) : (
@@ -183,7 +184,7 @@ const Blog = () => {
               size="lg"
               className="border-primary text-primary hover:bg-primary hover:text-white transition-colors"
             >
-              Lihat Semua Artikel
+{t('blog.viewAll')}
             </Button>
           </div>
         )}

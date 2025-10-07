@@ -2,9 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote, MessageSquare, User } from "lucide-react";
 import { useRef, useMemo } from "react";
 import { useSimpleCache, CACHE_KEYS } from "@/hooks/useCache";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Testimonials = () => {
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   // Cache untuk testimonials data
   const { data: cachedTestimonials } = useSimpleCache(
@@ -80,14 +82,13 @@ const Testimonials = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <MessageSquare className="w-4 h-4" />
-            Testimoni Klien
+            {t('testimonials.badge')}
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4">
-            Apa Kata Klien Kami?
+            {t('testimonials.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Kepuasan klien adalah prioritas utama kami. 
-            Lihat testimoni dari berbagai klien yang telah mempercayakan website mereka kepada kami
+            {t('testimonials.subtitle')}
           </p>
         </div>
 
@@ -157,7 +158,7 @@ const Testimonials = () => {
               ))}
             </div>
             <span className="text-success font-semibold text-sm lg:text-base">
-              4.9/5 dari 100+ review klien
+              {t('testimonials.rating')}
             </span>
           </div>
         </div>

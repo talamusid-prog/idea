@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
+  const { t } = useLanguage();
+  
   return (
     <section id="home" className="pt-8 lg:pt-16 lg:mt-0 pb-60 lg:pb-32 bg-gradient-to-br from-background to-muted relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
@@ -9,20 +12,10 @@ const Hero = () => {
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4">
               <h1 className="text-3xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight">
-                Wujudkan Website{" "}
-                <span className="gradient-primary bg-clip-text text-transparent">
-                  Impian
-                </span>{" "}
-                Anda
-                <br />
-                Cepat dan{" "}
-                <span className="gradient-primary bg-clip-text text-transparent">
-                  Profesional
-                </span>
+                {t('hero.title')}
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Jasa pembuatan website dan aplikasi Makassar dengan desain modern 
-                untuk bisnis, portofolio, atau toko online Anda. Kualitas premium, harga terjangkau.
+                {t('hero.subtitle')}
               </p>
             </div>
 
@@ -31,23 +24,23 @@ const Hero = () => {
                 size="lg" 
                 className="gradient-primary text-white hover:shadow-glow transition-smooth text-lg px-8 rounded-[30px]"
               >
-                Lihat Paket Website
+                {t('hero.cta.primary')}
               </Button>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border justify-items-center">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">100+</div>
-                <div className="text-sm text-muted-foreground">Website Selesai</div>
+                <div className="text-2xl font-bold text-primary">{t('hero.stats.websites.value')}</div>
+                <div className="text-sm text-muted-foreground">{t('hero.stats.websites.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground">Klien Puas</div>
+                <div className="text-2xl font-bold text-primary">{t('hero.stats.satisfaction.value')}</div>
+                <div className="text-sm text-muted-foreground">{t('hero.stats.satisfaction.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">24/7</div>
-                <div className="text-sm text-muted-foreground">Support</div>
+                <div className="text-2xl font-bold text-primary">{t('hero.stats.support.value')}</div>
+                <div className="text-sm text-muted-foreground">{t('hero.stats.support.label')}</div>
               </div>
             </div>
           </div>

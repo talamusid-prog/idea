@@ -1,33 +1,36 @@
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Process = () => {
+  const { t } = useLanguage();
+  
   const steps = [
     {
       number: "01",
       iconSrc: "/icon-konsultasi-jasa-web.png.png",
-      title: "Konsultasi",
-      description: "Diskusikan kebutuhan websitemu dengan tim sales atau developer kami yang ahli, Sob!",
+      title: t('process.consultation.title'),
+      description: t('process.consultation.desc'),
       iconColor: "text-orange-500"
     },
     {
       number: "02",
       iconSrc: "/icon-payment-jasa-web.png.png",
-      title: "Melakukan Payment",
-      description: "selesaikan pembayaran pembuatan website terlebih dahulu agar dapat diproses",
+      title: t('process.design.title'),
+      description: t('process.design.desc'),
       iconColor: "text-orange-500"
     },
     {
       number: "03",
       iconSrc: "/icon-pengerjaan-jasa-web.png.png",
-      title: "Proses Pengerjaan",
-      description: "Websitemu sedang dalam proses pengerjaan dan finalisasi. Kamu bisa melakukan revisi 2x sekali",
+      title: t('process.development.title'),
+      description: t('process.development.desc'),
       iconColor: "text-orange-500"
     },
     {
       number: "04",
       iconSrc: "/icon-website-siap-jasa-web.png.png",
-      title: "Website Siap Digunakan",
-      description: "Selamat! Websitemu sudah jadi. Kami juga akan memberikan edukasi penggunaan website.",
+      title: t('process.launch.title'),
+      description: t('process.launch.desc'),
       iconColor: "text-orange-500"
     }
   ];
@@ -38,11 +41,11 @@ const Process = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <ArrowRight className="w-4 h-4" />
-            Cara Kerja
+            {t('process.title')}
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            <span className="text-black">Langkah Mudah </span>
-            <span className="text-orange-500">Pembuatan Website</span>
+            <span className="text-black">{t('process.title')} </span>
+            <span className="text-orange-500">{t('process.subtitle')}</span>
           </h2>
         </div>
 

@@ -6,8 +6,11 @@ import { getPublishedPortfolios } from "@/lib/portfolioService";
 import { getPortfolioImage, listenForImageUpdates, getPortfolioImageWithFallback } from "@/lib/portfolioImageService";
 import { Portfolio as PortfolioType } from "@/lib/supabase";
 import { showInfo } from "@/lib/sweetAlert";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Portfolio = () => {
+  const { t } = useLanguage();
+  
   // Cache untuk kategori yang dipilih
   const { data: cachedCategory, setData: setCachedCategory } = useSimpleCache<string>(
     `${CACHE_KEYS.USER_PREFERENCES}_portfolio_category`,
@@ -129,14 +132,13 @@ const Portfolio = () => {
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3 sm:mb-4">
             <Filter className="w-4 h-4" />
-            Portfolio Kami
+            {t('portfolio.badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary mb-3 sm:mb-4 leading-tight">
-            Contoh Website Buatan Kami
+            {t('portfolio.title')}
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-0">
-            Lihat beberapa hasil karya terbaik kami yang telah membantu 
-            berbagai bisnis berkembang di dunia digital
+            {t('portfolio.subtitle')}
           </p>
         </div>
 
@@ -183,7 +185,7 @@ const Portfolio = () => {
         {loading && (
           <div className="text-center py-8 sm:py-12">
             <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-muted-foreground text-sm sm:text-base">Memuat portfolio...</p>
+            <p className="mt-4 text-muted-foreground text-sm sm:text-base">{t('portfolio.loading')}</p>
           </div>
         )}
 
@@ -193,7 +195,7 @@ const Portfolio = () => {
             {filteredPortfolios.length === 0 ? (
               <div className="text-center py-8 sm:py-12">
                 <p className="text-muted-foreground text-base sm:text-lg">
-                  Belum ada portfolio yang dipublikasikan.
+                  {t('portfolio.empty')}
                 </p>
               </div>
             ) : (
@@ -252,7 +254,7 @@ const Portfolio = () => {
                               {/* Content */}
                               <div className="relative flex items-center justify-center gap-1 sm:gap-2">
                                 <Eye className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover/btn:scale-110" />
-                                <span className="text-xs sm:text-sm">Demo</span>
+                                <span className="text-xs sm:text-sm">{t('portfolio.demo')}</span>
                               </div>
                             </button>
 
@@ -267,7 +269,7 @@ const Portfolio = () => {
                               {/* Content */}
                               <div className="relative flex items-center justify-center gap-1 sm:gap-2">
                                 <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                                <span className="text-xs sm:text-sm">Detail</span>
+                                <span className="text-xs sm:text-sm">{t('portfolio.detail')}</span>
                               </div>
                             </button>
                           </div>
@@ -300,7 +302,7 @@ const Portfolio = () => {
                       <div className="flex items-center justify-between">
                         {portfolio.client && (
                           <p className="text-white/80 text-xs line-clamp-1 flex-1 mr-2 max-w-[120px]">
-                            Client: {portfolio.client}
+                            {t('portfolio.client')}: {portfolio.client}
                           </p>
                         )}
                         {portfolio.technologies && portfolio.technologies.length > 0 && (
@@ -324,7 +326,7 @@ const Portfolio = () => {
             onClick={handleViewAllPortfolios}
             className="inline-flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105 cursor-pointer"
           >
-            <span className="text-sm sm:text-base">Lihat Portfolio Lengkap</span>
+            <span className="text-sm sm:text-base">{t('portfolio.viewAll')}</span>
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
         </div>
