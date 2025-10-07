@@ -95,7 +95,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         
         // Process
         'process.title': 'Proses Pengerjaan',
-        'process.subtitle': 'Langkah-langkah yang kami lakukan untuk mewujudkan website impian Anda',
+        'process.subtitle': 'Langkah mudah pembuatan website',
         'process.consultation.title': 'Konsultasi',
         'process.consultation.desc': 'Diskusi kebutuhan dan konsep website',
         'process.design.title': 'Design',
@@ -289,7 +289,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         
         // Process
         'process.title': 'Our Process',
-        'process.subtitle': 'Steps we take to realize your dream website',
+        'process.subtitle': 'Easy website creation steps',
         'process.consultation.title': 'Consultation',
         'process.consultation.desc': 'Discuss needs and website concepts',
         'process.design.title': 'Design',

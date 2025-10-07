@@ -49,7 +49,7 @@ const Header = ({ onLogoClick }: HeaderProps) => {
     { label: t('pricing.title'), href: "#pricing", isAnchor: true },
     { label: t('nav.portfolio'), href: "/portfolio", isAnchor: false },
     { label: t('process.title'), href: "#process", isAnchor: true },
-    { label: t('faq.badge'), href: "#faq", isAnchor: true },
+    { label: "FAQ", href: "#faq", isAnchor: true },
     { label: t('nav.blog'), href: "/blog", isAnchor: false },
   ];
 
@@ -94,13 +94,16 @@ const Header = ({ onLogoClick }: HeaderProps) => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Language Switcher & Menu Button */}
+          <div className="md:hidden flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              className="p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -116,10 +119,9 @@ const Header = ({ onLogoClick }: HeaderProps) => {
                   {item.label}
                 </button>
               ))}
-              <div className="flex items-center justify-between mt-4">
-                <LanguageSwitcher />
+              <div className="mt-4">
                 <Button 
-                  className="gradient-primary text-white"
+                  className="gradient-primary text-white w-full"
                   onClick={() => {
                     handleWhatsAppClick();
                     setIsMenuOpen(false);
