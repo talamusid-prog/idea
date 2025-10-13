@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Index from "./pages/Index";
@@ -47,6 +48,8 @@ const App = () => (
             </BrowserRouter>
             {/* Analytics component untuk melacak pengunjung dan page views */}
             <Analytics />
+            {/* Speed Insights untuk mengukur performa website */}
+            <SpeedInsights />
           </TooltipProvider>
         </LanguageProvider>
       </QueryClientProvider>
