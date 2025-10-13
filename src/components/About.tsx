@@ -31,7 +31,7 @@ const About = () => {
               <Star className="w-4 h-4" />
               {t('about.title')}
             </div>
-            <h1 className="text-2xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight mb-2 lg:mb-4">
+            <h1 className="text-2xl lg:text-4xl font-bold text-secondary leading-none lg:leading-tight mb-2 lg:mb-4">
               {t('about.title')}
             </h1>
           </div>
@@ -141,7 +141,7 @@ const About = () => {
               <ArrowRight className="w-4 h-4" />
               {t('about.values.badge')}
             </div>
-            <h2 className="text-2xl lg:text-6xl font-bold text-secondary mb-4">
+            <h2 className="text-2xl lg:text-4xl font-bold text-secondary mb-4">
               {t('about.values.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

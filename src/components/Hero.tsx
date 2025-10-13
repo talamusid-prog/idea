@@ -6,7 +6,16 @@ const Hero = () => {
   
   return (
     <section id="home" className="pt-8 lg:pt-16 lg:mt-0 pb-60 lg:pb-32 bg-gradient-to-br from-background to-muted relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4">
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(141, 141, 141, 0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:30px_30px] lg:bg-[size:60px_60px] bg-gradient-to-t from-transparent to-gray-400/20" style={{
+        backgroundImage: `
+          linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
+        `,
+        backgroundSize: '30px 30px',
+        backgroundPosition: '0 0, 0 0'
+      }}></div>
+      <div className="max-w-6xl mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-3 gap-12 items-end">
           {/* Left Content */}
           <div className="lg:col-span-2 space-y-8">
@@ -29,7 +38,7 @@ const Hero = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border justify-items-center">
+            <div className="grid grid-cols-3 gap-8 pt-4 -mt-8 lg:mt-0 justify-items-center">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">{t('hero.stats.websites.value')}</div>
                 <div className="text-sm text-muted-foreground">{t('hero.stats.websites.label')}</div>
