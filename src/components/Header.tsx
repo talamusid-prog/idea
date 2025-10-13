@@ -47,7 +47,6 @@ const Header = ({ onLogoClick }: HeaderProps) => {
   const menuItems = [
     { label: t('nav.home'), href: "/", isAnchor: false },
     { label: t('nav.about'), href: "/about", isAnchor: false },
-    { label: t('pricing.title'), href: "#pricing", isAnchor: true },
     { label: t('nav.portfolio'), href: "/portfolio", isAnchor: false },
     { label: t('process.title'), href: "#process", isAnchor: true },
     { label: "FAQ", href: "#faq", isAnchor: true },

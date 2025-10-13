@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/Header';
 import About from '@/components/About';
@@ -7,6 +8,12 @@ import Footer from '@/components/Footer';
 
 const AboutPage = () => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
+
+  // Fungsi untuk handle logo click - redirect ke home
+  const handleLogoClick = () => {
+    navigate('/');
+  };
 
   return (
     <>
@@ -25,7 +32,7 @@ const AboutPage = () => {
       </Helmet>
       
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <Header />
+        <Header onLogoClick={handleLogoClick} />
         <About />
         <Footer />
       </div>

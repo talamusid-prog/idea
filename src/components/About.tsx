@@ -1,10 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Target, Users, Handshake, Star, ArrowRight } from 'lucide-react';
 
 const About = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   // Fungsi untuk membuka WhatsApp dengan format nomor yang benar
   const handleWhatsAppClick = () => {
@@ -12,6 +14,11 @@ const About = () => {
     const message = "Halo! Saya ingin berkonsultasi tentang pembuatan website. Apakah ada yang bisa dibantu?";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  // Fungsi untuk handle logo click - redirect ke home
+  const handleLogoClick = () => {
+    navigate('/');
   };
 
   return (
@@ -24,12 +31,12 @@ const About = () => {
               <Star className="w-4 h-4" />
               {t('about.title')}
             </div>
-            <h1 className="text-3xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight mb-6">
+            <h1 className="text-2xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight mb-2 lg:mb-4">
               {t('about.title')}
             </h1>
           </div>
           
-          <div className="max-w-4xl mx-auto text-left">
+          <div className="max-w-4xl mx-auto text-left -mt-4 lg:mt-0 px-4 lg:px-0">
             <p 
               className="text-lg text-muted-foreground leading-relaxed mb-6"
               dangerouslySetInnerHTML={{ __html: t('about.subtitle') }}
@@ -48,7 +55,7 @@ const About = () => {
 
       {/* Vision & Mission Section */}
       <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-6 lg:px-4">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Vision */}
             <div className="group">
@@ -112,13 +119,13 @@ const About = () => {
 
       {/* Values Section */}
       <section className="py-16 bg-background">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-6 lg:px-4">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               <ArrowRight className="w-4 h-4" />
               {t('about.values.badge')}
             </div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4">
+            <h2 className="text-2xl lg:text-6xl font-bold text-secondary mb-4">
               {t('about.values.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -177,7 +184,7 @@ const About = () => {
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary to-accent">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-4xl mx-auto px-6 lg:px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
             {t('about.cta.title')}
           </h2>
