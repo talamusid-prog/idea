@@ -111,6 +111,22 @@ const About = () => {
                     {t('about.mission.item3')}
                   </p>
                 </div>
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {t('about.mission.item4')}
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {t('about.mission.item5')}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
