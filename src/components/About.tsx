@@ -19,7 +19,7 @@ const About = () => {
       {/* Hero Section */}
       <section className="pt-8 lg:pt-16 pb-16 lg:pb-32 bg-gradient-to-br from-background to-muted relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center">
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               <Star className="w-4 h-4" />
               {t('about.title')}
@@ -27,15 +27,21 @@ const About = () => {
             <h1 className="text-3xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight mb-6">
               {t('about.title')}
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-6">
-              {t('about.subtitle')}
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-6">
-              {t('about.description')}
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-              {t('about.commitment')}
-            </p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto text-left">
+            <p 
+              className="text-lg text-muted-foreground leading-relaxed mb-6"
+              dangerouslySetInnerHTML={{ __html: t('about.subtitle') }}
+            />
+            <p 
+              className="text-lg text-muted-foreground leading-relaxed mb-6"
+              dangerouslySetInnerHTML={{ __html: t('about.description') }}
+            />
+            <p 
+              className="text-lg text-muted-foreground leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: t('about.commitment') }}
+            />
           </div>
         </div>
       </section>

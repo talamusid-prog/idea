@@ -212,9 +212,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         
         // About Page
         'about.title': 'Tentang Kami — Ideadigital Creative',
-        'about.subtitle': 'Ideadigital Creative adalah perusahaan digital agency yang berfokus pada pengembangan aplikasi dan website yang inovatif, aman, dan mudah digunakan. Kami membantu bisnis dari berbagai sektor untuk bertransformasi secara digital melalui solusi teknologi yang disesuaikan dengan kebutuhan unik setiap klien.',
-        'about.description': 'Dengan memanfaatkan teknologi terbaru dan praktik terbaik dalam pengembangan perangkat lunak, kami memastikan setiap proyek memiliki performa optimal, tampilan profesional, serta pengalaman pengguna yang intuitif. Kami siap mewujudkan ide Anda menjadi produk digital yang berdampak.',
-        'about.commitment': 'Mulai dari tahap konsultasi, perencanaan, desain, pengembangan, hingga implementasi, kami berkomitmen memberikan hasil terbaik yang mendorong efisiensi, produktivitas, dan pertumbuhan bisnis Anda.',
+        'about.subtitle': 'Ideadigital Creative adalah <strong>perusahaan digital agency</strong> yang berfokus pada pengembangan <strong>aplikasi dan website yang inovatif, aman, dan mudah digunakan</strong>. Kami membantu bisnis dari berbagai sektor untuk <strong>bertransformasi secara digital</strong> melalui solusi teknologi yang disesuaikan dengan kebutuhan unik setiap klien.',
+        'about.description': 'Dengan memanfaatkan <strong>teknologi terbaru dan praktik terbaik</strong> dalam pengembangan perangkat lunak, kami memastikan setiap proyek memiliki <strong>performa optimal, tampilan profesional, serta pengalaman pengguna yang intuitif</strong>. Kami siap mewujudkan ide Anda menjadi <strong>produk digital yang berdampak</strong>.',
+        'about.commitment': 'Mulai dari tahap <strong>konsultasi, perencanaan, desain, pengembangan, hingga implementasi</strong>, kami berkomitmen memberikan hasil terbaik yang mendorong <strong>efisiensi, produktivitas, dan pertumbuhan bisnis</strong> Anda.',
         'about.vision.title': 'Visi',
         'about.vision.content': 'Menjadi penyedia layanan jasa Desain Grafis dan website terbaik di kota Makassar',
         'about.mission.title': 'Misi',
@@ -429,9 +429,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         
         // About Page
         'about.title': 'About Us — Ideadigital Creative',
-        'about.subtitle': 'Ideadigital Creative is a digital agency company focused on developing innovative, secure, and user-friendly applications and websites. We help businesses from various sectors to transform digitally through technology solutions tailored to each client\'s unique needs.',
-        'about.description': 'By leveraging the latest technology and best practices in software development, we ensure every project has optimal performance, professional appearance, and intuitive user experience. We are ready to turn your ideas into impactful digital products.',
-        'about.commitment': 'From consultation, planning, design, development, to implementation, we are committed to delivering the best results that drive efficiency, productivity, and your business growth.',
+        'about.subtitle': 'Ideadigital Creative is a <strong>digital agency company</strong> focused on developing <strong>innovative, secure, and user-friendly applications and websites</strong>. We help businesses from various sectors to <strong>transform digitally</strong> through technology solutions tailored to each client\'s unique needs.',
+        'about.description': 'By leveraging <strong>the latest technology and best practices</strong> in software development, we ensure every project has <strong>optimal performance, professional appearance, and intuitive user experience</strong>. We are ready to turn your ideas into <strong>impactful digital products</strong>.',
+        'about.commitment': 'From <strong>consultation, planning, design, development, to implementation</strong>, we are committed to delivering the best results that drive <strong>efficiency, productivity, and your business growth</strong>.',
         'about.vision.title': 'Vision',
         'about.vision.content': 'To become the best Graphic Design and website service provider in Makassar city',
         'about.mission.title': 'Mission',
