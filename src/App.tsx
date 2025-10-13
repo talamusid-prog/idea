@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Index from "./pages/Index";
+import About from "./pages/About";
 import Admin from "./pages/Admin";
 import Blog from "./pages/Blog";
 import BlogDetail from "./components/BlogDetail";
@@ -31,6 +32,7 @@ const App = () => (
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin-portfolio" element={<AdminPortfolio />} />
                 <Route path="/create-article" element={<CreateArticle />} />
