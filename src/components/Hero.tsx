@@ -38,7 +38,7 @@ const Hero = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-4 -mt-8 lg:mt-0 justify-items-center">
+            <div className="grid grid-cols-3 gap-8 pt-4 -translate-y-8 lg:translate-y-0 justify-items-center">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">{t('hero.stats.websites.value')}</div>
                 <div className="text-sm text-muted-foreground">{t('hero.stats.websites.label')}</div>
