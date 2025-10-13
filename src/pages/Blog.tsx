@@ -19,6 +19,7 @@ import { getPublishedPosts } from "@/lib/blogService";
 import { BlogPost } from "@/lib/supabase";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ const Blog = () => {
 
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
     loadPosts();
   }, []);
 
@@ -383,6 +386,7 @@ const Blog = () => {
       </div>
       
       <Footer />
+      <BackToTop />
     </div>
   );
 };
