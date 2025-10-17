@@ -5,6 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/Header';
 import About from '@/components/About';
 import Footer from '@/components/Footer';
+import BackToTop from '@/components/BackToTop';
 
 const AboutPage = () => {
   const { t, language } = useLanguage();
@@ -35,6 +36,7 @@ const AboutPage = () => {
         <Header onLogoClick={handleLogoClick} />
         <About />
         <Footer />
+        <BackToTop />
       </div>
     </>
   );
