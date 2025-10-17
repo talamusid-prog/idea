@@ -101,6 +101,34 @@ const Footer = () => {
                 </span>
               </div>
             </div>
+            
+            {/* Trusted Partners & Certifications */}
+            <div className="mt-8">
+              
+                <div className="flex flex-wrap gap-4">
+                  <div className="flex items-center justify-center">
+                    <img 
+                      src="/kominfo-logo.png" 
+                      alt="Kominfo Logo" 
+                      className="h-14 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <img 
+                      src="/google-partner.png" 
+                      alt="Google Partner Logo" 
+                      className="h-14 w-auto object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <img 
+                      src="/trusted.png" 
+                      alt="Trusted Logo" 
+                      className="h-14 w-auto object-contain"
+                    />
+                  </div>
+                </div>
+            </div>
           </div>
         </div>
 
@@ -111,14 +139,17 @@ const Footer = () => {
               &copy; {currentYear} Ideadigiralcreative. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-white/60 hover:text-accent transition-smooth">
+              <a href="/privacy-policy" className="text-white/60 hover:text-accent transition-smooth">
                 Privacy Policy
               </a>
-              <a href="#" className="text-white/60 hover:text-accent transition-smooth">
+              <a href="/terms-of-service" className="text-white/60 hover:text-accent transition-smooth">
                 Terms of Service
               </a>
-              <a href="#" className="text-white/60 hover:text-accent transition-smooth">
+              <a href="/cookie-policy" className="text-white/60 hover:text-accent transition-smooth">
                 Cookie Policy
+              </a>
+              <a href="/cookie-preferences" className="text-white/60 hover:text-accent transition-smooth">
+                Cookie Settings
               </a>
             </div>
           </div>
