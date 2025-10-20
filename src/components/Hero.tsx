@@ -5,25 +5,21 @@ const Hero = () => {
   const { t } = useLanguage();
   
   return (
-    <section id="home" className="pt-8 lg:pt-16 lg:mt-0 pb-60 lg:pb-32 bg-gradient-to-br from-background to-muted relative overflow-hidden">
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(141, 141, 141, 0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:30px_30px] lg:bg-[size:60px_60px] bg-gradient-to-t from-transparent to-gray-400/20" style={{
-        backgroundImage: `
-          linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
-        `,
-        backgroundSize: '30px 30px',
-        backgroundPosition: '0 0, 0 0'
-      }}></div>
+    <section id="home" className="pt-8 lg:pt-16 lg:mt-0 pb-60 lg:pb-32 relative overflow-hidden" style={{
+      backgroundImage: 'url(/Header-background.webp)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    }}>
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-3 gap-12 items-end">
           {/* Left Content */}
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4">
-              <h1 className="text-3xl lg:text-6xl font-bold text-secondary leading-none lg:leading-tight">
-                {t('hero.title')}
+              <h1 className="text-3xl lg:text-6xl font-bold text-black leading-none lg:leading-tight">
+                <span dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-gray-700 leading-relaxed">
                 {t('hero.subtitle')}
               </p>
             </div>
@@ -40,16 +36,16 @@ const Hero = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-4 -translate-y-8 lg:translate-y-0 justify-items-center">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">{t('hero.stats.websites.value')}</div>
-                <div className="text-sm text-muted-foreground">{t('hero.stats.websites.label')}</div>
+                <div className="text-2xl font-bold text-black">{t('hero.stats.websites.value')}</div>
+                <div className="text-sm text-gray-600">{t('hero.stats.websites.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">{t('hero.stats.satisfaction.value')}</div>
-                <div className="text-sm text-muted-foreground">{t('hero.stats.satisfaction.label')}</div>
+                <div className="text-2xl font-bold text-black">{t('hero.stats.satisfaction.value')}</div>
+                <div className="text-sm text-gray-600">{t('hero.stats.satisfaction.label')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">{t('hero.stats.support.value')}</div>
-                <div className="text-sm text-muted-foreground">{t('hero.stats.support.label')}</div>
+                <div className="text-2xl font-bold text-black">{t('hero.stats.support.value')}</div>
+                <div className="text-sm text-gray-600">{t('hero.stats.support.label')}</div>
               </div>
             </div>
           </div>

@@ -43,7 +43,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         'nav.contact': 'Kontak',
         
         // Hero Section
-        'hero.title': 'Solusi Website Profesional untuk Bisnis Anda',
+        'hero.title': '<span class="text-orange-500">Solusi Website</span> Profesional untuk Bisnis Anda',
         'hero.subtitle': 'Kami membantu Anda membangun website yang menarik, responsif, dan SEO-friendly untuk meningkatkan kehadiran digital bisnis Anda',
         'hero.cta.primary': 'Mulai Sekarang',
         'hero.cta.secondary': 'Lihat Portfolio',

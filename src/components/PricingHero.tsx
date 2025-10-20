@@ -39,8 +39,6 @@ const PricingHero = () => {
          <div className="h-1/2 bg-white"></div>
        </div>
 
-      {/* Orange Circle Decoration */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-orange-400 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-30"></div>
 
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         {/* Top Section - Orange Background */}
