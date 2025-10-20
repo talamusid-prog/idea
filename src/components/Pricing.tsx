@@ -50,7 +50,7 @@ const Pricing = () => {
     },
     {
       name: "Business",
-      price: "5 Juta",
+      price: "2,3 Juta",
       popular: true,
       description: "Ideal untuk bisnis menengah",
       features: [
