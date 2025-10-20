@@ -33,7 +33,7 @@ const Pricing = () => {
   const packages = [
     {
       name: "Starter",
-      price: "2,5 Juta",
+      price: "1,3 Juta",
       popular: false,
       description: "Sempurna untuk bisnis kecil",
       features: [
