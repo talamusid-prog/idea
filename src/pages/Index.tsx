@@ -23,7 +23,7 @@ const Index = () => {
     <>
       <Helmet>
         <title>Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar</title>
-        <meta name="description" content="Idea Digital Creative adalah perusahaan digital agency yang berfokus pada pengembangan aplikasi dan website yang inovatif, aman, dan mudah digunakan. Kami membantu bisnis dari berbagai sektor untuk bertransformasi secara digital melalui solusi teknologi yang disesuaikan dengan kebutuhan unik setiap klien." />
+        <meta name="description" content="Jasa Pembuatan Website Makassar" />
         <meta name="keywords" content="jasa pembuatan website, web development, digital agency, website profesional, jasa website makassar, pembuatan website murah, web design, aplikasi web, website company profile, toko online, e-commerce, responsive website, SEO friendly website" />
         <meta name="author" content="Idea Digital Creative" />
         <meta name="robots" content="index, follow" />
@@ -34,7 +34,7 @@ const Index = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ideadigitalcreative.com/" />
         <meta property="og:title" content="Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar" />
-        <meta property="og:description" content="Idea Digital Creative adalah perusahaan digital agency yang berfokus pada pengembangan aplikasi dan website yang inovatif, aman, dan mudah digunakan." />
+        <meta property="og:description" content="Jasa Pembuatan Website Makassar" />
         <meta property="og:image" content="https://ideadigitalcreative.com/logo.png" />
         <meta property="og:site_name" content="Idea Digital Creative" />
         <meta property="og:locale" content={language === 'id' ? 'id_ID' : 'en_US'} />
@@ -43,7 +43,7 @@ const Index = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://ideadigitalcreative.com/" />
         <meta name="twitter:title" content="Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar" />
-        <meta name="twitter:description" content="Idea Digital Creative adalah perusahaan digital agency yang berfokus pada pengembangan aplikasi dan website yang inovatif, aman, dan mudah digunakan." />
+        <meta name="twitter:description" content="Jasa Pembuatan Website Makassar" />
         <meta name="twitter:image" content="https://ideadigitalcreative.com/logo.png" />
         
         {/* Canonical URL */}

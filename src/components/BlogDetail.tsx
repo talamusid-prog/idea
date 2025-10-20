@@ -338,12 +338,12 @@ const BlogDetail = () => {
       <Helmet>
         {/* Basic Meta Tags */}
         <title>{post.title} | Idea Digital Creative</title>
-        <meta name="description" content={post.excerpt} />
+        <meta name="description" content={post.excerpt || `Baca artikel "${post.title}" dari Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar. Temukan tips dan insight terbaru seputar web development dan teknologi digital.`} />
         <meta name="author" content={post.author} />
         
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:description" content={post.excerpt || `Baca artikel "${post.title}" dari Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar. Temukan tips dan insight terbaru seputar web development dan teknologi digital.`} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://ideadigiralcreative.com/blog/${post.slug}`} />
         <meta property="og:site_name" content="Idea Digital Creative" />
@@ -399,7 +399,7 @@ const BlogDetail = () => {
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:description" content={post.excerpt || `Baca artikel "${post.title}" dari Idea Digital Creative - Jasa Pembuatan Website Profesional di Makassar. Temukan tips dan insight terbaru seputar web development dan teknologi digital.`} />
         <meta name="twitter:image" content={(() => {
           if (post.featured_image) {
             if (post.featured_image.startsWith('http')) {
